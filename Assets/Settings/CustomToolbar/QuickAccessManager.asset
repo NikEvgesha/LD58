@@ -13,21 +13,27 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
+  - displayName: Canvas
+    scenePath: Assets/Scenes/Evgesha.unity
+  - displayName: Exit
+    scenePath: Assets/Scenes/Evgesha.unity
   - displayName: LoadingScene
     scenePath: Assets/Scenes/LoadingScene.unity
-  - displayName: _Scripts
+  - displayName: LoadingScene
+    scenePath: Assets/Scenes/LoadingScene.unity
+  - displayName: MenuButton
+    scenePath: Assets/Scenes/Evgesha.unity
+  - displayName: menu
     scenePath: 
-  - displayName: _Sprites
+  - displayName: LoadingScene
+    scenePath: Assets/Scenes/LoadingScene.unity
+  - displayName: LoadingScene
+    scenePath: Assets/Scenes/LoadingScene.unity
+  - displayName: Panel
+    scenePath: Assets/Scenes/Evgesha.unity
+  - displayName: Exit
+    scenePath: Assets/Scenes/Evgesha.unity
+  - displayName: exit
     scenePath: 
-  - displayName: _Sounds
-    scenePath: 
-  - displayName: Assets
-    scenePath: 
-  - displayName: _Animations
-    scenePath: 
-  - displayName: _
-    scenePath: 
-  - displayName: _Prefabs
-    scenePath: 
-  - displayName: Import
-    scenePath: 
+  - displayName: Text (Legacy)
+    scenePath: Assets/Scenes/Evgesha.unity
