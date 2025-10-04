@@ -13,27 +13,27 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
-  - displayName: Canvas
-    scenePath: Assets/Scenes/Evgesha.unity
-  - displayName: Exit
-    scenePath: Assets/Scenes/Evgesha.unity
-  - displayName: LoadingScene
-    scenePath: Assets/Scenes/LoadingScene.unity
-  - displayName: LoadingScene
-    scenePath: Assets/Scenes/LoadingScene.unity
+  - displayName: Settings
+    scenePath: Assets/Scenes/Melomaner.unity
   - displayName: MenuButton
-    scenePath: Assets/Scenes/Evgesha.unity
-  - displayName: menu
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: PlayerController
     scenePath: 
-  - displayName: LoadingScene
-    scenePath: Assets/Scenes/LoadingScene.unity
-  - displayName: LoadingScene
-    scenePath: Assets/Scenes/LoadingScene.unity
-  - displayName: Panel
-    scenePath: Assets/Scenes/Evgesha.unity
-  - displayName: Exit
-    scenePath: Assets/Scenes/Evgesha.unity
-  - displayName: exit
+  - displayName: Player
     scenePath: 
-  - displayName: Text (Legacy)
-    scenePath: Assets/Scenes/Evgesha.unity
+  - displayName: Settings
+    scenePath: 
+  - displayName: _Scripts
+    scenePath: 
+  - displayName: _Sounds
+    scenePath: 
+  - displayName: _Sprites
+    scenePath: 
+  - displayName: Blend Tree
+    scenePath: 
+  - displayName: Cube
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: Move
+    scenePath: 
+  - displayName: Main Camera
+    scenePath: Assets/Scenes/Melomaner.unity
