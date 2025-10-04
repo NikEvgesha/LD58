@@ -10,6 +10,8 @@ public static class G
     public static Inventory Inventory;
     public static CustomPlayerInput Input;
 
+    public static PlayerStatManager PlayerStatManager;
+
     public static bool IsPaused;
 
 }

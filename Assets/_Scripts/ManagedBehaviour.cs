@@ -28,4 +28,15 @@ public class ManagedBehaviour : MonoBehaviour
     {
 
     }
+    private void LateUpdate()
+    {
+        if (!G.IsPaused)
+        {
+            PausableLateUpdate();
+        }
+    }
+    protected virtual void PausableLateUpdate()
+    {
+        
+    }
 }

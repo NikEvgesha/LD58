@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class ProceduralGeneration : MonoBehaviour
+public class ProceduralGeneration : ManagedBehaviour
 {
     [Header("Параметры генерации")]
     [SerializeField, Min(1)] private int _width = 8;
@@ -16,20 +15,16 @@ public class ProceduralGeneration : MonoBehaviour
     [Header("Префабы тайлов")]
     [SerializeField] private List<LocationTile> _locationTiles = new();
 
+    [Header("Стартовый тайл (обязательный)")]
+    [SerializeField] private LocationTile _startTile; // <- добавили сюда
+
     [Header("Опции")]
     [SerializeField] private bool _clearChildrenOnGenerate = true;
     [SerializeField] private bool _generateOnStart = true;
     [SerializeField] private bool _log = false;
 
     private System.Random _rng;
-
-    private class Placed
-    {
-        public LocationTile prefab;
-        public int rot; // 0..3 (по 90° CW)
-        public GameObject go;
-    }
-
+    private class Placed { public LocationTile prefab; public int rot; public GameObject go; }
     private Placed[,] _grid;
 
     private void Start()
@@ -45,6 +40,11 @@ public class ProceduralGeneration : MonoBehaviour
             Debug.LogError("Нет тайлов в _locationTiles.");
             return;
         }
+        if (_startTile == null)
+        {
+            Debug.LogError("Не задан Start Tile!");
+            return;
+        }
 
         if (_seed == 0) _seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
         _rng = new System.Random(_seed);
@@ -58,50 +58,66 @@ public class ProceduralGeneration : MonoBehaviour
 
         _grid = new Placed[_width, _height];
 
+        // 1️⃣ ставим заданный стартовый тайл в центр
+        var (cx, cy) = (_width / 2, _height / 2);
+        if (!PlaceGivenStartTile(cx, cy))
+        {
+            Debug.LogWarning("Не удалось поставить стартовый тайл.");
+            return;
+        }
+
+        // 2️⃣ остальное — обычный бэктрекинг
         bool ok = BacktrackPlace(0, 0);
-        if (!ok)
+        if (!ok) Debug.LogWarning("Не удалось собрать карту, попробуй другой сид.");
+        else if (_log) Debug.Log("Готово!");
+    }
+
+    private bool PlaceGivenStartTile(int x, int y)
+    {
+        // ищем вариант поворота, где ровно 1 открытая сторона
+        foreach (int rot in EnumerateRotations(_startTile))
         {
-            Debug.LogWarning("Не удалось собрать карту с заданными тайлами/ограничениями. Попробуйте другой сид или набор тайлов.");
+            var mask = _startTile.MaskWithRotation(rot);
+            if (CountBits(mask) != 1) continue;
+
+            var go = Instantiate(_startTile.gameObject, IndexToWorld(x, y), RotationFromQuarterTurns(rot), transform);
+            _grid[x, y] = new Placed { prefab = _startTile, rot = rot, go = go };
+            return true;
         }
-        else
-        {
-            if (_log) Debug.Log("Готово!");
-        }
+        return false;
     }
 
     private bool BacktrackPlace(int x, int y)
     {
         if (y >= _height) return true;
-
         int nextX = (x + 1) % _width;
         int nextY = y + ((x + 1) / _width);
 
-        // Перемешаем тайлы с учетом веса
-        var pool = WeightedShuffle(_locationTiles, _rng);
+        // пропускаем центр
+        if (_grid[x, y] != null) return BacktrackPlace(nextX, nextY);
 
+        var pool = WeightedShuffle(_locationTiles, _rng);
         foreach (var tile in pool)
         {
             foreach (int rot in EnumerateRotations(tile))
             {
                 var mask = tile.MaskWithRotation(rot);
 
-                // Правило: на границе карты не должно быть "дыр"
                 if (x == 0        && mask.HasFlag(Openings.West))  continue;
                 if (x == _width-1 && mask.HasFlag(Openings.East))  continue;
                 if (y == 0        && mask.HasFlag(Openings.South)) continue;
                 if (y == _height-1&& mask.HasFlag(Openings.North)) continue;
 
-                // Совместимость с уже поставленными соседями
                 if (!MatchesNeighbors(x, y, mask)) continue;
 
-                // Поставить
                 var go = Instantiate(tile.gameObject, IndexToWorld(x, y), RotationFromQuarterTurns(rot), transform);
                 _grid[x, y] = new Placed { prefab = tile, rot = rot, go = go };
 
-                // Рекурсия дальше
+                var lt = go.GetComponent<LocationTile>();
+                lt?.SetupRuntime(_rng);
+
                 if (BacktrackPlace(nextX, nextY)) return true;
 
-                // Откат
                 DestroyImmediate(go);
                 _grid[x, y] = null;
             }
@@ -112,39 +128,41 @@ public class ProceduralGeneration : MonoBehaviour
 
     private bool MatchesNeighbors(int x, int y, Openings maskHere)
     {
-        // Левый
         if (x - 1 >= 0 && _grid[x - 1, y] != null)
         {
             var leftMask = _grid[x - 1, y].prefab.MaskWithRotation(_grid[x - 1, y].rot);
             bool needConnect = leftMask.HasFlag(Openings.East);
             if (needConnect != maskHere.HasFlag(Openings.West)) return false;
         }
-
-        // Правый
         if (x + 1 < _width && _grid[x + 1, y] != null)
         {
             var rightMask = _grid[x + 1, y].prefab.MaskWithRotation(_grid[x + 1, y].rot);
             bool needConnect = rightMask.HasFlag(Openings.West);
             if (needConnect != maskHere.HasFlag(Openings.East)) return false;
         }
-
-        // Нижний
         if (y - 1 >= 0 && _grid[x, y - 1] != null)
         {
             var bottomMask = _grid[x, y - 1].prefab.MaskWithRotation(_grid[x, y - 1].rot);
             bool needConnect = bottomMask.HasFlag(Openings.North);
             if (needConnect != maskHere.HasFlag(Openings.South)) return false;
         }
-
-        // Верхний
         if (y + 1 < _height && _grid[x, y + 1] != null)
         {
             var topMask = _grid[x, y + 1].prefab.MaskWithRotation(_grid[x, y + 1].rot);
             bool needConnect = topMask.HasFlag(Openings.South);
             if (needConnect != maskHere.HasFlag(Openings.North)) return false;
         }
-
         return true;
+    }
+
+    private int CountBits(Openings m)
+    {
+        int c = 0;
+        if (m.HasFlag(Openings.North)) c++;
+        if (m.HasFlag(Openings.East))  c++;
+        if (m.HasFlag(Openings.South)) c++;
+        if (m.HasFlag(Openings.West))  c++;
+        return c;
     }
 
     private IEnumerable<int> EnumerateRotations(LocationTile tile)
@@ -154,8 +172,6 @@ public class ProceduralGeneration : MonoBehaviour
             yield return 0;
             yield break;
         }
-
-        // Перемешаем порядок проб
         var rots = new List<int> { 0, 1, 2, 3 };
         for (int i = rots.Count - 1; i > 0; i--)
         {
@@ -167,7 +183,6 @@ public class ProceduralGeneration : MonoBehaviour
 
     private List<LocationTile> WeightedShuffle(List<LocationTile> src, System.Random rng)
     {
-        // Алгоритм: дублируем в пул по весу (с потолком) и перемешиваем
         var pool = new List<LocationTile>();
         foreach (var t in src)
         {
@@ -187,7 +202,6 @@ public class ProceduralGeneration : MonoBehaviour
 
     private Vector3 IndexToWorld(int x, int y)
     {
-        // Центрируем сетку вокруг (0,0,0), Y — вверх
         float offsetX = (_width - 1) * _cellSize * 0.5f;
         float offsetY = (_height - 1) * _cellSize * 0.5f;
         return new Vector3(x * _cellSize - offsetX, 0f, y * _cellSize - offsetY);
@@ -201,10 +215,7 @@ public class ProceduralGeneration : MonoBehaviour
         for (int y = 0; y < _height; y++)
         {
             for (int x = 0; x < _width; x++)
-            {
-                var p = IndexToWorld(x, y);
-                Gizmos.DrawWireCube(p, new Vector3(_cellSize, 0.05f, _cellSize));
-            }
+                Gizmos.DrawWireCube(IndexToWorld(x, y), new Vector3(_cellSize, 0.05f, _cellSize));
         }
     }
 #endif

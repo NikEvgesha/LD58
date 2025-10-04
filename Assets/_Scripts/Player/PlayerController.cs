@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : ManagedBehaviour
 {
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _maxSpeed = 10f;
@@ -47,8 +47,7 @@ public class PlayerController : MonoBehaviour
         if (_jumpAction != null) _jumpAction.Disable();
         if (_sprintAction != null) _sprintAction.Disable();
     }
-
-    void Update()
+    protected override void PausableUpdate()
     {
         // Проверка касания земли
         CheckGround();
@@ -58,7 +57,7 @@ public class PlayerController : MonoBehaviour
         // Прыжок
         Jump();
     }
-    private void LateUpdate()
+    protected override void PausableLateUpdate()
     {
         // Управление камерой мышкой
         CameraControll();
