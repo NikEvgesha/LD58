@@ -1,0 +1,92 @@
+using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
+public class InteractionPanel : ManagedBehaviour, IPointerDownHandler, IPointerUpHandler
+{
+    //[SerializeField] private GameObject _hintDesctop;
+    //[SerializeField] private GameObject _hintTouch;
+    [SerializeField] private Image _fillImg;
+    [SerializeField] private Text _priceText;
+    [SerializeField] private Text _actionText;
+    [SerializeField] private float _speed = 1f;
+    [SerializeField] public UnityEvent InteractionComplete;
+
+    private float _progress;
+    private bool _interactionInProgress;
+    private bool _interactionHold;
+    private PlayerInput _playerInput;
+
+    private void OnDisable()
+    {
+        ResetProgress();
+        _interactionHold = false;
+        StopAllCoroutines();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        _interactionHold = true;
+        StartInteraction();
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        _interactionHold = false;
+    }
+
+
+    protected override void PausableUpdate()
+    {
+        //_interactionHold = G.Input.InteractionHold;
+        if (_interactionInProgress) return;
+
+        if (G.Input.Interaction.triggered)
+        {
+            StartInteraction();
+        }
+    }
+
+    private void StartInteraction()
+    {
+        _interactionInProgress = true;
+        _progress = 0;
+        StartCoroutine(InteractionProcess());
+    }
+
+    private IEnumerator InteractionProcess()
+    {
+        while (G.Input.Interaction.IsPressed() && _progress < 1f)
+        {
+            _progress += Time.deltaTime * _speed;
+            _fillImg.fillAmount = _progress;
+            yield return null;
+        }
+
+        if (_progress >= 1f)
+        {
+            InteractionComplete.Invoke();
+        }
+        ResetProgress();
+    }
+    private void ResetProgress()
+    {
+        _progress = 0;
+        _fillImg.fillAmount = 0;
+        _interactionInProgress = false;
+    }
+
+    public void SetInfo(string actionText, string price = null)
+    {
+        _actionText.text = actionText;
+        _priceText.gameObject.SetActive(price != null);
+        if (price != null)
+        {
+            _priceText.text = "$" + price;
+        }
+    }
+}

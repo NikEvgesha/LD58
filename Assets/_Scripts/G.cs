@@ -1,3 +1,5 @@
+using UnityEngine.InputSystem;
+
 public static class G
 {
     public static SoundManager SoundManager;
@@ -5,6 +7,8 @@ public static class G
     public static GameLoader GameLoader;
     public static LocalizationManager LocalizationManager;
     public static Settings Settings;
+    public static Inventory Inventory;
+    public static CustomPlayerInput Input;
 
     public static bool IsPaused;
 

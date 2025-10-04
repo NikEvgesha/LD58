@@ -1,24 +1,46 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class SettingUI : MonoBehaviour
+public class SettingUI : ManagedBehaviour
 {
     [SerializeField] private Slider _musicVolume;
     [SerializeField] private Slider _soundVolume;
     [SerializeField] private Slider _sensivity;
     [SerializeField] private GameObject _panel;
+    [SerializeField] private InputAction _menuAction;
 
     private bool _isOpen;
-    public void ToggleOpen()
+
+    private void OnEnable()
     {
-        _isOpen = !_isOpen;
-        _panel.SetActive(_isOpen);
-        G.IsPaused = _isOpen;
-        
-        //if (_isOpen)
-        //    PlayerInput.Instance.AOpenWindow?.Invoke(this);
-        
+        if (_menuAction != null) _menuAction.Enable();
     }
+
+    private void OnDisable()
+    {
+        G.SoundManager.Ready.RemoveListener(SetValues);
+        if (_menuAction != null) _menuAction.Disable();
+        //PlayerInput.Instance.APause -= ToggleOpen;
+    }
+
+
+    private void Awake()
+    {
+        EnsureDefaultBindingsIfEmpty();
+    }
+
+
+    private void EnsureDefaultBindingsIfEmpty()
+    {
+        if (_menuAction == null || _menuAction.bindings.Count == 0)
+        {
+            _menuAction = new InputAction("Inventory", InputActionType.Button);
+            _menuAction.AddBinding("<Keyboard>/escape");
+        }
+    }
+
+
     private void Start()
     {
         //PlayerInput.Instance.APause += ToggleOpen;
@@ -41,10 +63,24 @@ public class SettingUI : MonoBehaviour
 
     }
 
-    private void OnDisable()
+
+    protected override void PausableUpdate()
     {
-        G.SoundManager.Ready.RemoveListener(SetValues);
-        //PlayerInput.Instance.APause -= ToggleOpen;
+        if (_menuAction.triggered)
+        {
+            ToggleOpen();
+        }
+    }
+
+    public void ToggleOpen()
+    {
+        _isOpen = !_isOpen;
+        _panel.SetActive(_isOpen);
+        //G.IsPaused = _isOpen;
+
+        //if (_isOpen)
+        //    PlayerInput.Instance.AOpenWindow?.Invoke(this);
+
     }
 
     private void SetValues()

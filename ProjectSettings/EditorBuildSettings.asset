@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Evgesha.unity
     guid: b75ecbc29031a3a418a2b871d639a883
+  - enabled: 1
+    path: Assets/Scenes/Melomaner.unity
+    guid: 9b4085e7674383140918af1396a60fcb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_UseUCBPForAssetBundles: 0

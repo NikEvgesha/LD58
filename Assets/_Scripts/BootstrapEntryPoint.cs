@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class BootstrapEntryPoint : MonoBehaviour 
 {
@@ -8,6 +8,7 @@ public class BootstrapEntryPoint : MonoBehaviour
     [SerializeField] private SaveManager _saveManager;
     [SerializeField] private LocalizationManager _localizationManager;
     [SerializeField] private Settings _settings;
+    [SerializeField] private CustomPlayerInput _input;
 
 
 
@@ -21,10 +22,10 @@ public class BootstrapEntryPoint : MonoBehaviour
         Instantiate(_saveManager);
         Instantiate(_localizationManager);
         Instantiate(_settings);
+        Instantiate(_input);
 
 
         G.GameLoader.LoadNextScene("Evgesha", false);
-        G.GameLoader.ShowLoadingImage(false);
     }
 
 }

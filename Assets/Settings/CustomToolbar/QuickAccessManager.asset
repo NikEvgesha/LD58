@@ -13,27 +13,29 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
-  - displayName: Settings
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: MenuButton
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: PlayerController
-    scenePath: 
-  - displayName: Player
-    scenePath: 
-  - displayName: Settings
-    scenePath: 
-  - displayName: _Scripts
-    scenePath: 
-  - displayName: _Sounds
-    scenePath: 
-  - displayName: _Sprites
-    scenePath: 
-  - displayName: Blend Tree
-    scenePath: 
-  - displayName: Cube
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: Move
-    scenePath: 
   - displayName: Main Camera
-    scenePath: Assets/Scenes/Melomaner.unity
+    scenePath: Assets/_Prefabs/Player.prefab
+  - displayName: Player
+    scenePath: Assets/_Prefabs/Player.prefab
+  - displayName: Evgesha
+    scenePath: Assets/Scenes/Evgesha.unity
+  - displayName: LoadingScene
+    scenePath: Assets/Scenes/LoadingScene.unity
+  - displayName: InteractionCanvas
+    scenePath: Assets/_Prefabs/Chest.prefab
+  - displayName: Chest
+    scenePath: Assets/_Prefabs/Chest.prefab
+  - displayName: Chest
+    scenePath: 
+  - displayName: LoadingScene
+    scenePath: Assets/Scenes/LoadingScene.unity
+  - displayName: Chest
+    scenePath: Assets/_Prefabs/Chest.prefab
+  - displayName: 0
+    scenePath: Assets/_Prefabs/Chest.prefab
+  - displayName: Cap
+    scenePath: Assets/_Prefabs/Chest.prefab
+  - displayName: sunduc (2)
+    scenePath: Assets/_Prefabs/Chest.prefab
+  - displayName: Model
+    scenePath: Assets/_Prefabs/Chest.prefab
