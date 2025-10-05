@@ -23,8 +23,8 @@ public class GameManager : MonoBehaviour
 
     public void OnGameStart()
     {
-        G.IsPaused = false;
         GameStart?.Invoke();
+        G.IsPaused = false;
     }
 
     public void OnGameEnd()
@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
         G.IsPaused = true;
         // check if win
         GameEnd?.Invoke(true /*win*/);
+        Transform spawnPoint = GameObject.FindWithTag("SpawnPoint").transform;
+        G.PlayerStatManager.transform.position = spawnPoint.position;
     }
 
 

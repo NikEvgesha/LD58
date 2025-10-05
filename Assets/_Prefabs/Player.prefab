@@ -179,6 +179,7 @@ MonoBehaviour:
   _maxSpeed: 6
   _gravity: -9.81
   _mouseSensitivity: 5
+  _cameraDeltaTime: 0.01
   _moveAction:
     m_Name: Move
     m_Type: 0

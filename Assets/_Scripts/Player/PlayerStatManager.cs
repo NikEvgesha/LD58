@@ -92,6 +92,12 @@ public class PlayerStatManager : MonoBehaviour
 
         HP = _hpMax;
         Fear = 0;
+        G.Game.GameStart.AddListener(StartNew);
+    }
+    private void StartNew()
+    {
+        HP = _hpMax;
+        Fear = 0;
     }
     private void OnDestroy()
     {
@@ -116,8 +122,9 @@ public class PlayerStatManager : MonoBehaviour
     }
     private void Dead()
     {
-        var current = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(current.buildIndex);
+        //var current = SceneManager.GetActiveScene();
+        //SceneManager.LoadScene(current.buildIndex);
+        G.Game.OnGameEnd();
     }
     private void DeadFear()
     {

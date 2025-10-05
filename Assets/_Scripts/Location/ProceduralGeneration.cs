@@ -27,14 +27,16 @@ public class ProceduralGeneration : ManagedBehaviour
     private class Placed { public LocationTile prefab; public int rot; public GameObject go; }
     private Placed[,] _grid;
 
-    private void Start()
+    public void Init()
     {
         if (_generateOnStart) Generate();
+        G.Game.GameEnd.AddListener(Generate);
     }
     
     [ContextMenu("Generate")]
-    public void Generate()
+    public void Generate(bool win = false)
     {
+        _seed = 0;
         if (_locationTiles == null || _locationTiles.Count == 0)
         {
             Debug.LogError("Нет тайлов в _locationTiles.");
@@ -53,7 +55,7 @@ public class ProceduralGeneration : ManagedBehaviour
         if (_clearChildrenOnGenerate)
         {
             for (int i = transform.childCount - 1; i >= 0; i--)
-                DestroyImmediate(transform.GetChild(i).gameObject);
+                Destroy(transform.GetChild(i).gameObject);
         }
 
         _grid = new Placed[_width, _height];
@@ -82,6 +84,9 @@ public class ProceduralGeneration : ManagedBehaviour
 
             var go = Instantiate(_startTile.gameObject, IndexToWorld(x, y), RotationFromQuarterTurns(rot), transform);
             _grid[x, y] = new Placed { prefab = _startTile, rot = rot, go = go };
+
+            var lt = go.GetComponent<LocationTile>();
+            lt?.SetupRuntime(_rng);
             return true;
         }
         return false;

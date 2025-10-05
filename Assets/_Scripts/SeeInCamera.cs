@@ -7,19 +7,33 @@ public class SeeInCamera : MonoBehaviour
     [SerializeField] int testVector;
     [SerializeField] Vector3 Vector3Test;
 
-    private void OnEnable()
+    private void Start()
     {
-        _canvas = gameObject.GetComponent<Canvas>();
-        _mainCamera = FindObjectOfType<Camera>();
-        Camera[] cameras = FindObjectsOfType<Camera>();
-        foreach (var camera in cameras)
+        Init();
+    }
+    private void Init()
+    {
+        if(!_canvas)
+            _canvas = gameObject.GetComponent<Canvas>();
+        if (!_mainCamera)
+            _mainCamera = FindAnyObjectByType<Camera>();
+
+        if (!_mainCamera)
         {
-            if(camera.tag == "MainCamera") 
+            Camera[] cameras = FindObjectsOfType<Camera>();
+            foreach (var camera in cameras)
             {
-                _mainCamera = camera;
+                if (camera.tag == "MainCamera")
+                {
+                    _mainCamera = camera;
+                }
             }
         }
         _canvas.worldCamera = _mainCamera;
+    }
+    private void OnEnable()
+    {
+        
         
     }
     private void Update()

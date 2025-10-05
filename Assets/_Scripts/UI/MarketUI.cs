@@ -27,6 +27,7 @@ public class MarketUI : MonoBehaviour
     public void _Close()
     {
         _panel.SetActive(false);
+        G.Game.OnGameStart();
     }
 
 }

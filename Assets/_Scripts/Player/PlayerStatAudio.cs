@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerStatAudio : MonoBehaviour
+public class PlayerStatAudio : ManagedBehaviour
 {
     [Header("—сылки")]
     [Tooltip("≈сли оставить пустым Ч возьмЄтс€ из G.PlayerStatManager")]
@@ -122,7 +122,7 @@ public class PlayerStatAudio : MonoBehaviour
         _stats.ChangeFearOne.RemoveListener(OnFearChanged);
     }
 
-    private void Update()
+    protected void PausedUpdate()
     {
         if (_stats == null) return;
 

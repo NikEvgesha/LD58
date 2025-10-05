@@ -33,13 +33,13 @@ public class InteractionRaycastSource : MonoBehaviour
         if (Physics.Raycast(origin, _direction, out var occHit, _raycastDistance, _occluderMask, QueryTriggerInteraction.Ignore))
         {
             maxVisibleDist = occHit.distance; // дальше Ц стена
-            Debug.Log($"Occluder: {occHit.transform.name}, dist: {occHit.distance:0.###}");
+            //Debug.Log($"Occluder: {occHit.transform.name}, dist: {occHit.distance:0.###}");
         }
         if (Physics.Raycast(origin, _direction, out var intHit, _raycastDistance, _interactableMask, QueryTriggerInteraction.Collide)
             && intHit.distance <= maxVisibleDist
             && intHit.transform.TryGetComponent(out InteractionRaycastListener listener))
         {
-            Debug.Log(intHit.transform.gameObject.name+": " + intHit.distance);
+            //Debug.Log(intHit.transform.gameObject.name+": " + intHit.distance);
             if (_lastHit != listener)
             {
                 _lastHit?.onRaycastFail();

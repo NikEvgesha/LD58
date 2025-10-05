@@ -658,31 +658,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5390491321218687011, guid: 2f303dda7a1c5fc4fac474e3caff49cc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2372507049984602237}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f303dda7a1c5fc4fac474e3caff49cc, type: 3}
---- !u!1 &3508863882168565553 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5390491321218687011, guid: 2f303dda7a1c5fc4fac474e3caff49cc, type: 3}
-  m_PrefabInstance: {fileID: 8826811555011763986}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2372507049984602237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3508863882168565553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1ab92e016ad5904e8467db0c7ef04d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SeeInCamera
-  _mainCamera: {fileID: 0}
-  testVector: 0
-  Vector3Test: {x: 0, y: 0, z: 0}
 --- !u!224 &9070985216492963536 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 548804363811297730, guid: 2f303dda7a1c5fc4fac474e3caff49cc, type: 3}

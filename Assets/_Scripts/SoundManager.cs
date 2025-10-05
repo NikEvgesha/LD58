@@ -13,6 +13,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource _uiClick;
     [SerializeField] private AudioClip _lose;
     [SerializeField] private AudioClip _win;
+    [SerializeField] private AudioClip _inDungeons;
+    [SerializeField] private AudioClip _inShop;
+
+
 
     private static SoundManager _instance;
     public static SoundManager Instance => _instance;
@@ -93,6 +97,8 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
             StartGame();
+        G.Game.GameStart.AddListener(()=>ChangeMusic(true));
+        G.Game.GameEnd.AddListener((bool win) => ChangeMusic(false));
     }
     private void StartGame()
     {
@@ -103,6 +109,11 @@ public class SoundManager : MonoBehaviour
 
         IsReady = true;
         Ready?.Invoke();
+        PlayMusicLoop();
+    }
+    private void ChangeMusic(bool inDungeons)
+    {
+        _music.clip = inDungeons ? _inDungeons:_inShop;
         PlayMusicLoop();
     }
     public void OnPauseAudioChanged(bool paused)

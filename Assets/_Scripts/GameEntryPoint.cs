@@ -8,17 +8,17 @@ public class GameEntryPoint : MonoBehaviour
     [SerializeField] private GameObject _lobbyUI;
     //[SerializeField] private PlayerManager _player;
     //[SerializeField] private UI _ui;
+    [SerializeField] private ProceduralGeneration _proceduralGeneration;
 
 
     private void Start()
     {
-        //Instantiate(_player);
+        Instantiate(_proceduralGeneration).Init();
+
+        Instantiate(_lobbyUI);
+        Instantiate(_player);
         Instantiate(_inventory);
         Instantiate(_gameUI);
-        Instantiate(_lobbyUI);
-        // ui
-        // dungeon generator
-        // player
 
         G.GameLoader.ShowLoadingImage(false);
         G.Game.OnGameStart();
