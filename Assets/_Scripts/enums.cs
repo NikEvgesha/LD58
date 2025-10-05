@@ -20,7 +20,18 @@ public enum Rarity
 public enum ItemType
 {
     Consumable,
-    Sellable
+    Sellable,
+    Usable
+}
+
+
+public enum ConsumableType
+{
+    Picklock,
+    GhostTrap,
+    HealPotion,
+    FearPotion,
+    Teleport
 }
 
 

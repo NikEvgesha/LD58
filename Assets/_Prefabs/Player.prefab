@@ -363,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61e3f744951302a4e95a64e8c7dbbb01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FearTimer
-  _damage: 0
+  _damage: 1
 --- !u!114 &2617481469392393285
 MonoBehaviour:
   m_ObjectHideFlags: 0

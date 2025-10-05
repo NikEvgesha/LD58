@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public struct ItemData
+public struct CollectableItemData
 {
     public string Name;
     public ItemType Type;
@@ -16,13 +16,13 @@ public struct ItemData
 [RequireComponent(typeof(Outline))]
 public class CollectableItem : MonoBehaviour
 {
-    [SerializeField] private ItemData _data;
+    [SerializeField] private CollectableItemData _data;
     [SerializeField] private InteractionPanel _interactionPanel;
     private Outline _outline;
     private bool _interactable;
 
 
-    public ItemData Data => _data;
+    public CollectableItemData Data => _data;
 
     private void Awake()
     {

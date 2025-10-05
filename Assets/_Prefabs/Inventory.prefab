@@ -44,6 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62dcec74cb28951428ff2388cba0d0eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  _safeBagCapacity: 3
+  _marketItems: {fileID: 11400000, guid: 54d00fd464783674591a6d857b55bbe4, type: 2}
   ItemsUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+  SafeItemsUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+  NoSpaceInSafeBag:
     m_PersistentCalls:
       m_Calls: []

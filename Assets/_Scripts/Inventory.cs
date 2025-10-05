@@ -1,19 +1,20 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private int _safeBagCapacity = 3;
+    [SerializeField] private MarketItemsList _marketItems;
     private List<CollectableItem> _items;
     private List<CollectableItem> _safeItems;
-    private HashSet<ItemData> _collected;
+    private HashSet<CollectableItemData> _collected;
+    private Dictionary<MarketItemData, int> _consumables;
     public bool IsReady { get; private set; }
     public int SafeBagCapacity => _safeBagCapacity;
-    public HashSet<ItemData> Collected => _collected;
+    public HashSet<CollectableItemData> Collected => _collected;
 
     [HideInInspector]
     public UnityEvent<ReadOnlyCollection<CollectableItem>> ItemsUpdated;
@@ -40,10 +41,16 @@ public class Inventory : MonoBehaviour
         _items = new();
         _safeItems = new();
         _collected = new();
+        _consumables = new();
     }
 
     private void Start()
     {
+        foreach (MarketItemData item in _marketItems.Values)
+        {
+            _consumables.Add(item, 0);
+        }
+             
         IsReady = true;
     }
 
@@ -90,10 +97,10 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public List<KeyValuePair<ItemData, int>> GetResultItems(bool all)
+    public List<KeyValuePair<CollectableItemData, int>> GetResultItems(bool all)
     {
         
-        Dictionary<ItemData, int> itemsCount = new Dictionary<ItemData, int>();
+        Dictionary<CollectableItemData, int> itemsCount = new Dictionary<CollectableItemData, int>();
 
         foreach (CollectableItem item in _safeItems)
         {
@@ -149,6 +156,26 @@ public class Inventory : MonoBehaviour
         _items.Add(item);
         SafeItemsUpdated?.Invoke(_safeItems.AsReadOnly());
         ItemsUpdated?.Invoke(_items.AsReadOnly());
+    }
+
+
+
+    public void AddConsumable(MarketItemData itemData)
+    {
+        if (_consumables.ContainsKey(itemData)) {
+            _consumables[itemData]++;
+        }
+    }
+
+
+    public bool RemoveConsumable(MarketItemData itemData)
+    {
+        if (_consumables.ContainsKey(itemData) && _consumables[itemData] > 0) {
+            _consumables[itemData]--;
+            return true;
+        }
+
+        return false;
     }
 
 }

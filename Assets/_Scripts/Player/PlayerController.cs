@@ -8,6 +8,7 @@ public class PlayerController : ManagedBehaviour
     [SerializeField] private float _maxSpeed = 10f;
     [SerializeField] private float _gravity = -9.81f;
     [SerializeField] private float _mouseSensitivity = 100f;
+    [SerializeField] private float _cameraDeltaTime = 0.01f;
     private CharacterController _characterController;
     private Vector3 _velocity;
     private Transform _cam;
@@ -16,6 +17,8 @@ public class PlayerController : ManagedBehaviour
     private bool _isGrounded = false;
     private float _xRotation = 0f;
     private Animator _animator;
+    private float _minSensivity = 50;
+    private float _maxSensivity = 150;
     
     // Input System actions (можешь привязать из Input Actions Asset через инспектор)
     [Header("Input Actions (optional if you have an asset)")]
@@ -34,6 +37,7 @@ public class PlayerController : ManagedBehaviour
 
     void OnEnable()
     {
+        G.Settings.ChangeMouseSensitivity.AddListener(ChangeSensivity);
         if (_moveAction != null) _moveAction.Enable();
         if (_lookAction != null) _lookAction.Enable();
         if (_jumpAction != null) _jumpAction.Enable();
@@ -94,8 +98,8 @@ public class PlayerController : ManagedBehaviour
     {
 
         Vector2 lookInput = _lookAction.ReadValue<Vector2>();
-        float mouseX = lookInput.x * _mouseSensitivity * Time.deltaTime;
-        float mouseY = lookInput.y * _mouseSensitivity * Time.deltaTime;
+        float mouseX = lookInput.x * _mouseSensitivity * _cameraDeltaTime; // * Time.deltaTime;
+        float mouseY = lookInput.y * _mouseSensitivity * _cameraDeltaTime; // * Time.deltaTime;
 
         _xRotation -= mouseY;
         _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
@@ -138,5 +142,12 @@ public class PlayerController : ManagedBehaviour
             _sprintAction.AddBinding("<Gamepad>/leftStickPress");
         }
     }
-    
+
+
+    private void ChangeSensivity(float value)
+    {
+        _mouseSensitivity = Mathf.Lerp(_minSensivity, _maxSensivity, value);
+    }
+
+
 }

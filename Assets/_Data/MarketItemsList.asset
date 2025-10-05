@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06134418f00920a4fabca0f885df49b1, type: 3}
+  m_Name: MarketItemsList
+  m_EditorClassIdentifier: Assembly-CSharp::MarketItemsList
+  _data:
+  - Name: Picklock
+    ItemType: 0
+    ConsumableType: 0
+    Price: 50
+    Icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    Description: Maybe you can open something with it
+  - Name: Ghost trap
+    ItemType: 0
+    ConsumableType: 1
+    Price: 500
+    Icon: {fileID: 21300000, guid: b6019606399f10f40b41d1055fa0bb86, type: 3}
+    Description: Do you really want to catch it?
+  - Name: Heal Potion
+    ItemType: 2
+    ConsumableType: 2
+    Price: 50
+    Icon: {fileID: 21300000, guid: e7c66c2a76823734eb539635011c0073, type: 3}
+    Description: Consult your doctor before use
+  - Name: Brave Potion
+    ItemType: 2
+    ConsumableType: 3
+    Price: 25
+    Icon: {fileID: 21300000, guid: e590a431b5b769c4890b9476ca9294af, type: 3}
+    Description: Alcohol content is above average
+  - Name: Brave Potion
+    ItemType: 2
+    ConsumableType: 4
+    Price: 200
+    Icon: {fileID: 21300000, guid: e590a431b5b769c4890b9476ca9294af, type: 3}
+    Description: Follow the escape plan from the dungeon

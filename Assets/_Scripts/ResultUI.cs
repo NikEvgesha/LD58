@@ -39,4 +39,9 @@ public class ResultUI : MonoBehaviour
 
     }
 
+    public void _Close()
+    {
+        _resultPanel.SetActive(false);
+    }
+
 }
