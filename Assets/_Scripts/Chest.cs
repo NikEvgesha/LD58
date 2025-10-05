@@ -10,7 +10,7 @@ public struct Reward
     public float weight;
 }
 
-public class Chest : MonoBehaviour
+public class Chest : DungeonTreasures
 {
     [SerializeField] private List<Reward> _rewards;
     [SerializeField] private Transform _itemPoint;

@@ -47,7 +47,34 @@ MonoBehaviour:
   _mixer: {fileID: 24300002, guid: b518e0dedffefbe4aa244c682592d439, type: 2}
   _curve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.15996438
+      value: 0.4983525
+      inSlope: 1.6148283
+      outSlope: 1.6148283
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.0696673
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.028333334
+      outSlope: 0.028333334
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.4001431
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
