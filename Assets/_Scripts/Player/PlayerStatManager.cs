@@ -10,6 +10,20 @@ public class PlayerStatManager : MonoBehaviour
 {
     [SerializeField] private float _hpMax = 100;
     [SerializeField] private float _fearLimit = 100;
+
+    [Header("Ёфекты")]
+    [Header("”рон HP")]
+    [SerializeField] private float _damageShakePower = 0.3f;
+    [SerializeField] private float _damageShakeTime = 0.25f;
+    [SerializeField] private float _damageRednessPower = 0.7f;
+    [SerializeField] private float _damageRednessTime = 0.3f;
+
+    [Header("”рон ћенталки")]
+    [SerializeField] private float _damageFreezePower = 0.8f;
+    [SerializeField] private float _damageFreezeTime = 0.8f;
+
+
+
     private float _fear = -1;
     public float Fear
     {
@@ -17,9 +31,13 @@ public class PlayerStatManager : MonoBehaviour
         set
         {
             if (_fear == value) return;
-            if (value >= 100)
+            if (_fear + 5 < value)
             {
-                _fear = 100;
+                G.EffectsControllerTimedUI.Freeze(_damageFreezePower, _damageFreezeTime);
+            }
+            if (value >= _fearLimit)
+            {
+                _fear = _fearLimit;
                 DeadFear();
             }
             else
@@ -37,6 +55,12 @@ public class PlayerStatManager : MonoBehaviour
         set
         {
             if (_hp == value) return;
+            if (_hp > value)
+            {
+                G.EffectsControllerTimedUI.Redness(_damageRednessPower, _damageRednessTime);
+                G.EffectsControllerTimedUI.Shake(_damageShakePower, _damageShakeTime);
+            }
+
             if (value <= 0)
             {
                 _hp = 0;
@@ -62,6 +86,11 @@ public class PlayerStatManager : MonoBehaviour
 
         HP = _hpMax;
         Fear = 0;
+    }
+    private void OnDestroy()
+    {
+        if (G.PlayerStatManager == this)
+            G.PlayerStatManager = null;
     }
     public void Damage(int damage,PlayerStats stat = PlayerStats.HP)
     {

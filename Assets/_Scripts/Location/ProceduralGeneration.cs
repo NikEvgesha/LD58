@@ -31,7 +31,7 @@ public class ProceduralGeneration : ManagedBehaviour
     {
         if (_generateOnStart) Generate();
     }
-
+    
     [ContextMenu("Generate")]
     public void Generate()
     {

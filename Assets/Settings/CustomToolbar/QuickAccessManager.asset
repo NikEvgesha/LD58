@@ -13,29 +13,47 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
+  - displayName: Locations
+    scenePath: 
+  - displayName: Player
+    scenePath: Assets/Scenes/Melomaner.unity
   - displayName: Main Camera
     scenePath: Assets/_Prefabs/Player.prefab
   - displayName: Player
     scenePath: Assets/_Prefabs/Player.prefab
-  - displayName: Evgesha
-    scenePath: Assets/Scenes/Evgesha.unity
-  - displayName: LoadingScene
-    scenePath: Assets/Scenes/LoadingScene.unity
-  - displayName: InteractionCanvas
-    scenePath: Assets/_Prefabs/Chest.prefab
-  - displayName: Chest
-    scenePath: Assets/_Prefabs/Chest.prefab
-  - displayName: Chest
-    scenePath: 
-  - displayName: LoadingScene
-    scenePath: Assets/Scenes/LoadingScene.unity
-  - displayName: Chest
-    scenePath: Assets/_Prefabs/Chest.prefab
+  - displayName: Main Camera
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: 1
+    scenePath: Assets/Scenes/Melomaner.unity
   - displayName: 0
-    scenePath: Assets/_Prefabs/Chest.prefab
-  - displayName: Cap
-    scenePath: Assets/_Prefabs/Chest.prefab
-  - displayName: sunduc (2)
-    scenePath: Assets/_Prefabs/Chest.prefab
-  - displayName: Model
-    scenePath: Assets/_Prefabs/Chest.prefab
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: Point Light
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: Particle System
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: Canvas
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: PointV
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: Player
+    scenePath: 
+  - displayName: Player
+    scenePath: 
+  - displayName: Player
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: Player
+    scenePath: 
+  - displayName: Player
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: Player
+    scenePath: 
+  - displayName: FearTimer
+    scenePath: 
+  - displayName: 'Fear BAR '
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: HP BAR
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: Player
+    scenePath: Assets/Scenes/Melomaner.unity
+  - displayName: Mask
+    scenePath: Assets/Scenes/Melomaner.unity

@@ -16,7 +16,7 @@ public class PlayerController : ManagedBehaviour
     private bool _isGrounded = false;
     private float _xRotation = 0f;
     private Animator _animator;
-
+    
     // Input System actions (можешь привязать из Input Actions Asset через инспектор)
     [Header("Input Actions (optional if you have an asset)")]
     [SerializeField] private InputAction _moveAction;

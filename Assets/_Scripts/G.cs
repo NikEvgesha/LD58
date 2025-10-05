@@ -14,4 +14,6 @@ public static class G
 
     public static bool IsPaused;
 
+    public static EffectsControllerTimedUI EffectsControllerTimedUI;
+
 }
