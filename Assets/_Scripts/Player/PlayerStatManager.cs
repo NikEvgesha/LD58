@@ -23,17 +23,17 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField] private float _damageFreezeTime = 0.8f;
 
 
-
+    private float _fearAdd = 0;
     private float _fear = -1;
     public float Fear
     {
         get { return _fear; }
         set
         {
+            value = value + _fearAdd;
             if (_fear == value) return;
             if (_fear + 5 < value)
             {
-                G.EffectsControllerTimedUI.SetFreezeTarget(_damageFreezePower);
             }
             if (value >= _fearLimit)
             {
@@ -42,7 +42,7 @@ public class PlayerStatManager : MonoBehaviour
             }
             else
             {
-                _fear = value;
+                _fear = value ;
             }
             ChangeFear?.Invoke(_fear);
         }
@@ -57,8 +57,12 @@ public class PlayerStatManager : MonoBehaviour
             if (_hp == value) return;
             if (_hp > value)
             {
-                G.EffectsControllerTimedUI.AddRedImpulse(_damageRednessPower);
-                G.EffectsControllerTimedUI.Shake(_damageShakePower, _damageShakeTime);
+                if (G.EffectsControllerTimedUI.red.current == 0)
+                {
+                    G.EffectsControllerTimedUI.AddRedImpulse(_damageRednessPower);
+                    G.EffectsControllerTimedUI.Shake(_damageShakePower, _damageShakeTime);
+                    ChangeHPOne?.Invoke();
+                }
             }
 
             if (value <= 0)
@@ -75,7 +79,9 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
     public UnityEvent<float> ChangeHP;
+    public UnityEvent ChangeHPOne;
     public UnityEvent<float> ChangeFear;
+    public UnityEvent ChangeFearOne;
 
     private void Awake()
     {
@@ -117,6 +123,17 @@ public class PlayerStatManager : MonoBehaviour
     {
         Damage(1);
         //Dead();
+    }
+    public void AddMultipliFear()
+    {
+        G.EffectsControllerTimedUI.SetFreezeTarget(_damageFreezePower);
+        _fearAdd++;
+        ChangeFearOne?.Invoke();
+    }
+    public void RemoveMultipliFear()
+    {
+        G.EffectsControllerTimedUI.SetFreezeTarget(0);
+        _fearAdd--;
     }
 }
 

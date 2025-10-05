@@ -110,16 +110,16 @@ public class PlayerStatAudio : MonoBehaviour
         _lastHp = _stats.HP;
         _lastFear = _stats.Fear;
 
-        _stats.ChangeHP.AddListener(OnHpChanged);
-        _stats.ChangeFear.AddListener(OnFearChanged);
+        _stats.ChangeHPOne.AddListener(OnHpChanged);
+        _stats.ChangeFearOne.AddListener(OnFearChanged);
     }
 
     private void OnDisable()
     {
         if (_stats == null) return;
 
-        _stats.ChangeHP.RemoveListener(OnHpChanged);
-        _stats.ChangeFear.RemoveListener(OnFearChanged);
+        _stats.ChangeHPOne.RemoveListener(OnHpChanged);
+        _stats.ChangeFearOne.RemoveListener(OnFearChanged);
     }
 
     private void Update()
@@ -168,29 +168,24 @@ public class PlayerStatAudio : MonoBehaviour
     }
 
     // --- события от PlayerStatManager ---
-    private void OnHpChanged(float newHp)
+    private void OnHpChanged()
     {
-        if (newHp < _lastHp && _damageReactionClips != null && _damageReactionClips.Length > 0)
+        if (Time.time - _lastDamageReactTime >= _damageReactionCooldown)
         {
-            if (Time.time - _lastDamageReactTime >= _damageReactionCooldown)
-            {
-                int idx = Random.Range(0, _damageReactionClips.Length);
-                AudioClip clip = _damageReactionClips[idx];
-                if (clip != null) _sfxSource.PlayOneShot(clip, 1f);
-                _lastDamageReactTime = Time.time;
-            }
+            int idx = Random.Range(0, _damageReactionClips.Length);
+            AudioClip clip = _damageReactionClips[idx];
+            if (clip != null) _sfxSource.PlayOneShot(clip, 1f);
+            _lastDamageReactTime = Time.time;
         }
-        _lastHp = newHp;
+        
     }
 
-    private void OnFearChanged(float newFear)
+    private void OnFearChanged()
     {
-        float delta = newFear - _lastFear;
-        if (delta >= _fearSpikeThreshold && _freezeClip != null)
-        {
-            _sfxSource.PlayOneShot(_freezeClip, 1f);
-        }
-        _lastFear = newFear;
+        if (_sfxSource.clip != _freezeClip)
+            _sfxSource.clip = _freezeClip;
+
+            _sfxSource.Play();
     }
 
     // --- вспомогательные ---

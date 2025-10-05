@@ -311,9 +311,9 @@ MonoBehaviour:
   _fearLimit: 200
   _damageShakePower: 0.3
   _damageShakeTime: 0.25
-  _damageRednessPower: 0.7
+  _damageRednessPower: 0.3
   _damageRednessTime: 0.3
-  _damageFreezePower: 0.8
+  _damageFreezePower: 0.2
   _damageFreezeTime: 0.8
   ChangeHP:
     m_PersistentCalls:
@@ -330,6 +330,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ChangeHPOne:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeFear:
     m_PersistentCalls:
       m_Calls:
@@ -345,6 +348,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ChangeFearOne:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2824908397585270849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1066,13 +1072,13 @@ MonoBehaviour:
   red:
     current: 0
     target: 0
-    risePerSec: 8
-    fallPerSec: 2.5
+    risePerSec: 1
+    fallPerSec: 0.5
   frost:
     current: 0
     target: 0
-    risePerSec: 2.5
-    fallPerSec: 1.5
+    risePerSec: 0.1
+    fallPerSec: 1
   vign:
     current: 0
     target: 0
@@ -1093,9 +1099,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InteractionRaycastSource
   _raycastType: 1
   _raycastDistance: 10
-  _layer:
+  _interactableMask:
     serializedVersion: 2
     m_Bits: 64
+  _occluderMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &946133661651985928
 GameObject:
   m_ObjectHideFlags: 0

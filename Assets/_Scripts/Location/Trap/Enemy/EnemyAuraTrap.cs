@@ -111,7 +111,14 @@ public class EnemyAuraTrap : DungeonTrap
         var psm = other.GetComponentInParent<PlayerStatManager>();
         if (psm != null) _victims.Remove(psm);
     }
-
+    public void _Watching()
+    {
+        G.PlayerStatManager.AddMultipliFear();
+    }
+    public void _DontWatching()
+    {
+        G.PlayerStatManager.RemoveMultipliFear();
+    }
     private bool IsTarget(Collider col)
     {
         return ((_targetLayers.value & (1 << col.gameObject.layer)) != 0);

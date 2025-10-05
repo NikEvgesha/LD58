@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: skilet2
       objectReference: {fileID: 0}
+    - target: {fileID: -7954917990899322755, guid: 0661ea8eb34e7bf4d97998a01a4f99dc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -2115076788495664676, guid: 0661ea8eb34e7bf4d97998a01a4f99dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.038
@@ -65,6 +69,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -7954917990899322755, guid: 0661ea8eb34e7bf4d97998a01a4f99dc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2891238761559701057}
+    - targetCorrespondingSourceObject: {fileID: -7954917990899322755, guid: 0661ea8eb34e7bf4d97998a01a4f99dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1531543302149714216}
+    - targetCorrespondingSourceObject: {fileID: -7954917990899322755, guid: 0661ea8eb34e7bf4d97998a01a4f99dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6059456945202074016}
   m_SourcePrefab: {fileID: -2808182438269490434, guid: 0661ea8eb34e7bf4d97998a01a4f99dc, type: 3}
 --- !u!1 &4562502777218961768 stripped
 GameObject:
@@ -90,7 +100,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1
+  m_Radius: 0.1
   m_Center: {x: 0.059999987, y: 0.645, z: 0.074999996}
 --- !u!114 &7112723950714732108
 MonoBehaviour:
@@ -108,14 +118,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   _autoArmOnStart: 1
-  _radius: 1
+  _radius: 0.1
   _requireLineOfSight: 0
   _obstacleLayers:
     serializedVersion: 2
     m_Bits: 1
   _damagePerTick: 5
   _tickInterval: 1
-  _damageMode: 0
+  _damageMode: 1
   _enterFX: {fileID: 0}
   _tickFX: {fileID: 0}
   _audio: {fileID: 0}
@@ -133,3 +143,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ab76943c5f0884882a1f045ac33d14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LookAtPlayer
+  _target: {fileID: 0}
+  _findPlayerAutomatically: 1
+  _rotationSpeed: 5
+--- !u!114 &1531543302149714216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4562502777218961768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47d47b452619d524b8d6b4062a406af7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractionRaycastListener
+  _hitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7112723950714732108}
+        m_TargetAssemblyTypeName: EnemyAuraTrap, Assembly-CSharp
+        m_MethodName: _Watching
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _noHitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7112723950714732108}
+        m_TargetAssemblyTypeName: EnemyAuraTrap, Assembly-CSharp
+        m_MethodName: _DontWatching
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &6059456945202074016
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4562502777218961768}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.96000016, y: 1.29, z: 0.6300002}
+  m_Center: {x: 0.060000002, y: 0.645, z: 0.07500001}

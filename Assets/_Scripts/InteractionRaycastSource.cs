@@ -3,59 +3,58 @@ using UnityEngine;
 public class InteractionRaycastSource : MonoBehaviour
 {
     [SerializeField] private RaycastType _raycastType;
-    [SerializeField] private float _raycastDistance;
-    [SerializeField] private LayerMask _layer;
+    [SerializeField] private float _raycastDistance = 3f;
+
+    [Header("Layers")]
+    [SerializeField] private LayerMask _interactableMask; // объекты с InteractionRaycastListener
+    [SerializeField] private LayerMask _occluderMask;     // стены/пол/преп€тстви€
 
     private InteractionRaycastListener _lastHit;
     private Vector3 _direction;
 
-    private void Awake()
-    {
-
-
-        Debug.Log(_direction);
-    }
     private void FixedUpdate()
     {
         TryHit();
     }
+
     private bool TryHit()
     {
-        switch (_raycastType)
+        _direction = _raycastType switch
         {
+            RaycastType.Down => Vector3.down,
+            RaycastType.Forward => transform.forward,
+            _ => Vector3.zero
+        };
+        if (_direction == Vector3.zero) return false;
 
-            case RaycastType.Down:
-                _direction = Vector3.down;
-                break;
-            case RaycastType.Forward:
-                _direction = transform.forward;
-                break;
-            default:
-                _direction = Vector3.zero;
-                break;
+        var origin = transform.position;
+
+        float maxVisibleDist = _raycastDistance;
+        if (Physics.Raycast(origin, _direction, out var occHit, _raycastDistance, _occluderMask, QueryTriggerInteraction.Ignore))
+        {
+            maxVisibleDist = occHit.distance; // дальше Ц стена
+            Debug.Log($"Occluder: {occHit.transform.name}, dist: {occHit.distance:0.###}");
         }
-
-        if (Physics.Raycast(transform.position, _direction, out RaycastHit hit, _raycastDistance, _layer) &&
-            hit.transform.TryGetComponent(out InteractionRaycastListener listener))
+        if (Physics.Raycast(origin, _direction, out var intHit, _raycastDistance, _interactableMask, QueryTriggerInteraction.Collide)
+            && intHit.distance <= maxVisibleDist
+            && intHit.transform.TryGetComponent(out InteractionRaycastListener listener))
         {
+            Debug.Log(intHit.transform.gameObject.name+": " + intHit.distance);
             if (_lastHit != listener)
             {
-                if (_lastHit != null)
-                    _lastHit.onRaycastFail();
+                _lastHit?.onRaycastFail();
                 _lastHit = listener;
                 _lastHit.onRaycastHit();
-
             }
             return true;
         }
-        else
+
+        if (_lastHit != null)
         {
-            if (_lastHit != null)
-            {
-                _lastHit.onRaycastFail();
-                _lastHit = null;
-            }
-            return false;
+            _lastHit.onRaycastFail();
+            _lastHit = null;
         }
-    } 
+        return false;
+    }
+
 }

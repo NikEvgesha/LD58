@@ -70,10 +70,10 @@ public class EffectsControllerTimedUI : MonoBehaviour
         {
             red.target = Mathf.Max(0f, red.target - redImpulseDecayPerSec * dt);
         }
-        if (frost.target > 0f)
+        /*if (frost.target > 0f)
         {
             frost.target = Mathf.Max(0f, frost.target - redImpulseDecayPerSec * dt);
-        }
+        }*/
 
         // Применяем к UI
         SetAlpha(overlayDark, dark.current);
