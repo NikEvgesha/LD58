@@ -6,21 +6,37 @@ using TMPro;
 public class ValueBar : ManagedBehaviour
 {
     [Header("UI")]
-    [SerializeField] private Image fillImage;                 // Image с Type=Filled (Fill Method = Horizontal)
-    [SerializeField] private TextMeshProUGUI minText;         // Текст минимума
-    [SerializeField] private TextMeshProUGUI maxText;         // Текст максимума
-    [SerializeField] private TextMeshProUGUI valueText;       // (опционально) Текст текущего значения на баре
+    [SerializeField] private Image fillImage;
+    [SerializeField] private TextMeshProUGUI minText;
+    [SerializeField] private TextMeshProUGUI maxText;
+    [SerializeField] private TextMeshProUGUI valueText;
 
     [Header("Config")]
     [SerializeField] private float min = 0f;
     [SerializeField] private float max = 100f;
     [SerializeField] private float value = 100f;
     [SerializeField] private bool animate = false;
-    [SerializeField] private float animateSpeed = 8f;         // чем больше, тем быстрее анимация
-    [SerializeField] private string numberFormat = "0";       // формат чисел в текстах: "0", "0.0", "0.##" и т.п.
+    [SerializeField] private float animateSpeed = 8f;
+    [SerializeField] private string numberFormat = "0";
+
+    // NEW: какой край опасный
+    public enum DangerEnd { LowIsDanger, HighIsDanger, BothEnds }
+    [Header("Alert / Shake")]
+    [SerializeField] private DangerEnd dangerEnd = DangerEnd.LowIsDanger;
+    [SerializeField, Range(0f, 1f)] private float shakeThreshold = 0.2f; // когда ближе чем 20% к опасному краю
+    [SerializeField] private float maxShakePixels = 8f;        // амплитуда дрожи в пикселях при danger=1
+    [SerializeField] private float shakeFrequency = 18f;        // Гц
+    [SerializeField] private AnimationCurve shakeIntensityByDanger = AnimationCurve.Linear(0, 0, 1, 1);
+    [SerializeField] private bool pulseScale = false;           // опциональный пульс масштаба
+    [SerializeField] private float maxScalePulse = 0.06f;       // ±6% при danger=1
 
     // Внутреннее целевое значение для анимации
     private float targetValue;
+
+    // NEW: кеш исходных трансформов, чтобы возвращаться в базу
+    private RectTransform rt;
+    private Vector2 baseAnchoredPos;
+    private Vector3 baseScale;
 
     public float Min
     {
@@ -51,7 +67,6 @@ public class ValueBar : ManagedBehaviour
 
     private void Awake()
     {
-        // Защита: если забыли выставить Image в Filled — сделаем сами.
         if (fillImage != null && fillImage.type != Image.Type.Filled)
         {
             fillImage.type = Image.Type.Filled;
@@ -61,23 +76,33 @@ public class ValueBar : ManagedBehaviour
         targetValue = Mathf.Clamp(value, min, max);
         ClampAll();
         RefreshAllImmediate();
+
+        // NEW: кешируем базовую позу/масштаб
+        rt = GetComponent<RectTransform>();
+        if (rt != null)
+        {
+            baseAnchoredPos = rt.anchoredPosition;
+            baseScale = rt.localScale;
+        }
     }
 
     protected override void PausableUpdate()
     {
-        if (!animate) return;
-
-        if (!Mathf.Approximately(value, targetValue))
+        if (animate)
         {
-            value = Mathf.Lerp(value, targetValue, Time.deltaTime * animateSpeed);
+            if (!Mathf.Approximately(value, targetValue))
+            {
+                value = Mathf.Lerp(value, targetValue, Time.deltaTime * animateSpeed);
+                if (Mathf.Abs(value - targetValue) < 0.0001f)
+                    value = targetValue;
 
-            // Чтобы не висеть в вечной асимптоте — снэп к цели.
-            if (Mathf.Abs(value - targetValue) < 0.0001f)
-                value = targetValue;
-
-            RefreshFillImmediate();
-            RefreshValueText();
+                RefreshFillImmediate();
+                RefreshValueText();
+            }
         }
+
+        // NEW: дрожь каждый кадр (независимо от animate заполнения)
+        UpdateShake();
     }
 
     /// <summary>Полная инициализация.</summary>
@@ -137,5 +162,54 @@ public class ValueBar : ManagedBehaviour
         if (!fillImage || max <= min) return;
         float t = Mathf.InverseLerp(min, max, value);
         fillImage.fillAmount = t;
+    }
+
+    // NEW: универсальный расчет близости к опасному краю
+    private float GetDanger01()
+    {
+        if (max <= min) return 0f;
+        float t = Mathf.InverseLerp(min, max, value); // 0..1
+
+        switch (dangerEnd)
+        {
+            case DangerEnd.LowIsDanger: return 1f - t;                   // ближе к 0 — опаснее
+            case DangerEnd.HighIsDanger: return t;                         // ближе к 1 — опаснее
+            case DangerEnd.BothEnds: return 1f - Mathf.Abs(2f * t - 1f); // края опасны, середина безопасна
+            default: return 0f;
+        }
+    }
+
+    // NEW: дрожь по позиции + опциональный пульс масштаба
+    private void UpdateShake()
+    {
+        if (rt == null) return;
+
+        float danger = Mathf.Clamp01(GetDanger01());
+        if (danger < shakeThreshold)
+        {
+            // Вернуть в базу, если не шатаем
+            rt.anchoredPosition = baseAnchoredPos;
+            if (pulseScale) rt.localScale = baseScale;
+            return;
+        }
+
+        // Нормализуем интенсивность с учетом порога
+        float k = Mathf.InverseLerp(shakeThreshold, 1f, danger);
+        k = shakeIntensityByDanger.Evaluate(k); // кривая настраивает рост интенсивности
+
+        // Псевдослучайная дрожь: Perlin по времени, чтобы не дергалось резко
+        float t = Time.unscaledTime * shakeFrequency; // unscaled — дрожит и на паузе Time.timeScale
+        float nx = Mathf.PerlinNoise(0.123f, t) * 2f - 1f;
+        float ny = Mathf.PerlinNoise(42.42f, t + 10f) * 2f - 1f;
+
+        Vector2 offset = new Vector2(nx, ny) * (maxShakePixels * k);
+        rt.anchoredPosition = baseAnchoredPos + offset;
+
+        if (pulseScale)
+        {
+            float pulse = (Mathf.PerlinNoise(7.7f, t * 0.5f) * 2f - 1f) * (maxScalePulse * k);
+            float s = 1f + pulse;
+            rt.localScale = new Vector3(baseScale.x * s, baseScale.y * s, baseScale.z);
+        }
     }
 }

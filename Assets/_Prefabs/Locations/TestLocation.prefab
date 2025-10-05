@@ -3964,8 +3964,8 @@ MonoBehaviour:
     trapComponent: {fileID: 1866305942962811276}
   - name: Skelet
     trapComponent: {fileID: 1641278580917787075}
-  _chooseTrapRandomly: 0
-  _trapIndex: 2
+  _chooseTrapRandomly: 1
+  _trapIndex: 0
   _rewardOptions: []
 --- !u!1 &3732732868097875464
 GameObject:
@@ -6413,13 +6413,37 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _curveDone:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _activatorLayers:
     serializedVersion: 2
     m_Bits: 4294967295
   _damage: 10
   _cooldown: 1.25
   _singleUse: 0
-  _damageOnlyOnPop: 1
+  _requirePresenceAtImpact: 1
   _audioSource: {fileID: 0}
   _sfxPop: {fileID: 0}
   _sfxRetract: {fileID: 0}

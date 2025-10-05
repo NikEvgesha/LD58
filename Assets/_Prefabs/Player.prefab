@@ -1058,6 +1058,27 @@ MonoBehaviour:
   overlayVignette: {fileID: 1036936830687578383}
   cameraRoot: {fileID: 7372941677112936671}
   shakeRot: 10
+  dark:
+    current: 0
+    target: 0
+    risePerSec: 1.5
+    fallPerSec: 1.5
+  red:
+    current: 0
+    target: 0
+    risePerSec: 8
+    fallPerSec: 2.5
+  frost:
+    current: 0
+    target: 0
+    risePerSec: 2.5
+    fallPerSec: 1.5
+  vign:
+    current: 0
+    target: 0
+    risePerSec: 1.5
+    fallPerSec: 1.5
+  redImpulseDecayPerSec: 1.5
 --- !u!114 &8516643211597435705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1270,6 +1291,36 @@ MonoBehaviour:
   animate: 1
   animateSpeed: 8
   numberFormat: 0
+  dangerEnd: 1
+  shakeThreshold: 0.2
+  maxShakePixels: 8
+  shakeFrequency: 18
+  shakeIntensityByDanger:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  pulseScale: 0
+  maxScalePulse: 0.06
 --- !u!1 &1493102431950894536
 GameObject:
   m_ObjectHideFlags: 0
@@ -2713,6 +2764,36 @@ MonoBehaviour:
   animate: 1
   animateSpeed: 8
   numberFormat: 0
+  dangerEnd: 0
+  shakeThreshold: 0.2
+  maxShakePixels: 8
+  shakeFrequency: 18
+  shakeIntensityByDanger:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  pulseScale: 0
+  maxScalePulse: 0.06
 --- !u!1 &8719505701762095568
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,7 +33,7 @@ public class PlayerStatManager : MonoBehaviour
             if (_fear == value) return;
             if (_fear + 5 < value)
             {
-                G.EffectsControllerTimedUI.Freeze(_damageFreezePower, _damageFreezeTime);
+                G.EffectsControllerTimedUI.SetFreezeTarget(_damageFreezePower);
             }
             if (value >= _fearLimit)
             {
@@ -57,7 +57,7 @@ public class PlayerStatManager : MonoBehaviour
             if (_hp == value) return;
             if (_hp > value)
             {
-                G.EffectsControllerTimedUI.Redness(_damageRednessPower, _damageRednessTime);
+                G.EffectsControllerTimedUI.AddRedImpulse(_damageRednessPower);
                 G.EffectsControllerTimedUI.Shake(_damageShakePower, _damageShakeTime);
             }
 
