@@ -44,3 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57521cab8784a394ba685cc6e9e8dec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameEntryPoint
+  _player: {fileID: 0}
+  _inventory: {fileID: 4127951045608880872, guid: 397e9f6292f80804682ac9b448f20357, type: 3}
+  _gameUI: {fileID: 6819337514434955014, guid: 8b7a4924fac33804f99e521df6e112ed, type: 3}
+  _lobbyUI: {fileID: 8692536527994545959, guid: 3ae9db7e32699fd4aaf41662cf0c9ca0, type: 3}

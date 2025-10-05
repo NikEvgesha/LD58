@@ -49,3 +49,7 @@ MonoBehaviour:
   _saveManager: {fileID: 2974233959673005924, guid: df44c402689ce2b43a4aa18e1e8a2d3d, type: 3}
   _localizationManager: {fileID: 567649986075921347, guid: cdce52d175fed5b408ae0a7974f6ecb5, type: 3}
   _settings: {fileID: 6802559528610777283, guid: 21e702949daf2d744a1d40f4e1cfa25f, type: 3}
+  _input: {fileID: 4334982933718844057, guid: 3688e1439bcbad843a070da74467af7d, type: 3}
+  _gameManager: {fileID: 1901778762762644436, guid: 1f3695346c16e724692efc2f2ede4cdf, type: 3}
+  _controlManager: {fileID: 8300939525249572762, guid: b73cd0f599be9c24e91d8601c7ab34b0, type: 3}
+  _cuurencyManager: {fileID: 4036853948680030383, guid: b206e59a4fb4ed442935ef2338cef720, type: 3}

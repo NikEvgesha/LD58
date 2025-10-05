@@ -1,4 +1,3 @@
-using UnityEngine.InputSystem;
 
 public static class G
 {
@@ -9,6 +8,9 @@ public static class G
     public static Settings Settings;
     public static Inventory Inventory;
     public static CustomPlayerInput Input;
+    public static GameManager Game;
+    public static ControlManager Control;
+    public static CurrencyManager Currency;
 
     public static PlayerStatManager PlayerStatManager;
 

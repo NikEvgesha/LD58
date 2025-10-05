@@ -22,3 +22,19 @@ public enum ItemType
     Consumable,
     Sellable
 }
+
+
+public enum CollectionCategory
+{
+    Folio,
+    Totem,
+    Gem,
+    Ghost
+}
+
+
+public enum GameScene
+{
+    Evgesha,
+    Melomaner
+}

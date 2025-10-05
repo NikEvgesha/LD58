@@ -1,4 +1,3 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class InteractionRaycastSource : MonoBehaviour
@@ -9,7 +8,6 @@ public class InteractionRaycastSource : MonoBehaviour
 
     private InteractionRaycastListener _lastHit;
     private Vector3 _direction;
-    private Transform _camera;
 
     private void Awake()
     {

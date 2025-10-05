@@ -46,7 +46,7 @@ public class InventoryUI : ManagedBehaviour
         for (int i = 0; i < _columns; i++)
         {
             InventorySlot slot = Instantiate(_slotPrefab, _mainGridContent.transform);
-            slot.Init(null);
+            slot.Init(null, false);
             _mainSlots.Add(slot);
         }
 
@@ -80,6 +80,7 @@ public class InventoryUI : ManagedBehaviour
     {
         _isOpen = !_isOpen;
         _uiPanel.SetActive(_isOpen);
+        G.Control.CursorActive = _isOpen;
     }
 
 
@@ -98,21 +99,21 @@ public class InventoryUI : ManagedBehaviour
                     i--;
                 } else
                 {
-                    _mainSlots[i].Init(null);
+                    _mainSlots[i].Init(null, false);
                 }
                 continue;
             }
 
             if (_mainSlots[i].Item != items[i])
             {
-                _mainSlots[i].Init(items[i]);
+                _mainSlots[i].Init(items[i], false);
             }
         }
 
         for (;i < items.Count; i++)
         {
             InventorySlot slot = Instantiate(_slotPrefab, _mainGridContent.transform);
-            slot.Init(items[i]);
+            slot.Init(items[i], false);
             _mainSlots.Add(slot);
         }
 
@@ -130,7 +131,7 @@ public class InventoryUI : ManagedBehaviour
                 
             } else if (_safeSlots[i].Item != items[i])
             {
-                _safeSlots[i].Init(items[i]);
+                _safeSlots[i].Init(items[i], true);
             }
 
             

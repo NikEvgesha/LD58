@@ -14,7 +14,6 @@ public class InteractionRaycastListener : MonoBehaviour
 
     public void onRaycastHit()
     {
-        Debug.Log("item hit");
         _hitEvent?.Invoke();
     }
 

@@ -13,47 +13,25 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
-  - displayName: Locations
-    scenePath: 
+  - displayName: LoadingScene
+    scenePath: Assets/Scenes/LoadingScene.unity
+  - displayName: LoadingScene
+    scenePath: Assets/Scenes/LoadingScene.unity
   - displayName: Player
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: Main Camera
-    scenePath: Assets/_Prefabs/Player.prefab
-  - displayName: Player
-    scenePath: Assets/_Prefabs/Player.prefab
-  - displayName: Main Camera
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: 1
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: 0
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: Point Light
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: Particle System
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: Canvas
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: PointV
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: Player
-    scenePath: 
-  - displayName: Player
-    scenePath: 
-  - displayName: Player
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: Player
-    scenePath: 
-  - displayName: Player
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: Player
-    scenePath: 
-  - displayName: FearTimer
-    scenePath: 
-  - displayName: 'Fear BAR '
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: HP BAR
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: Player
-    scenePath: Assets/Scenes/Melomaner.unity
-  - displayName: Mask
-    scenePath: Assets/Scenes/Melomaner.unity
+    scenePath: Assets/Scenes/Evgesha.unity
+  - displayName: Plane
+    scenePath: Assets/Scenes/Evgesha.unity
+  - displayName: Chest
+    scenePath: Assets/Scenes/Evgesha.unity
+  - displayName: GameInitializer
+    scenePath: Assets/Scenes/Evgesha.unity
+  - displayName: SoundManager(Clone)
+    scenePath: DontDestroyOnLoad
+  - displayName: LoadingScene
+    scenePath: Assets/Scenes/LoadingScene.unity
+  - displayName: SaveManager(Clone)
+    scenePath: DontDestroyOnLoad
+  - displayName: SoundManager(Clone)
+    scenePath: DontDestroyOnLoad
+  - displayName: GameLoader(Clone)
+    scenePath: DontDestroyOnLoad

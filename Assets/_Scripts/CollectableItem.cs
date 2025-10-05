@@ -35,7 +35,6 @@ public class CollectableItem : MonoBehaviour
 
     public void OnPlayerViewOn()
     {
-        Debug.Log("item");
         _interactable = true;
         SetOutline(_interactable);
         SetInteractionPanel(_interactable);

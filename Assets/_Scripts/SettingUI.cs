@@ -76,6 +76,7 @@ public class SettingUI : ManagedBehaviour
     {
         _isOpen = !_isOpen;
         _panel.SetActive(_isOpen);
+        G.Control.CursorActive = _isOpen;
         //G.IsPaused = _isOpen;
 
         //if (_isOpen)

@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 2486345654944299250}
   - component: {fileID: 7992064051649260294}
   - component: {fileID: 7791594025572672994}
+  - component: {fileID: 2982277663947104176}
   m_Layer: 6
   m_Name: Item
   m_TagString: Untagged
@@ -170,6 +171,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.21, y: 0.21, z: 0.21}
   m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!114 &2982277663947104176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5697079886390565768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16149e99fb7d4d340ab559809af2bb52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonTreasures
 --- !u!1 &6515255388395954133
 GameObject:
   m_ObjectHideFlags: 0

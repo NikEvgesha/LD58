@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,11 +12,14 @@ public class InventorySlot : MonoBehaviour
     private CollectableItem _item;
     public CollectableItem Item => _item;
 
-    public void Init(CollectableItem item, bool showBackGround = false)
+    private int _index;
+    private bool _safeSlot;
+
+    public void Init(CollectableItem item, bool safeSlot)
     {
         _item = item;
-
-        _background.gameObject.SetActive(showBackGround || item != null);
+        _safeSlot = safeSlot;
+        _background.gameObject.SetActive(safeSlot || item != null);
         _icon.gameObject.SetActive(item != null);
         _name.gameObject.SetActive(item != null);
 
@@ -52,8 +56,18 @@ public class InventorySlot : MonoBehaviour
         //}
     }
 
-    public void _OnClick() {
-            
+    public void _OnClick() 
+    {
+        if (_item == null) return;    
+        
+        if (!_safeSlot)
+        {
+            G.Inventory.TryMoveToSafe(_item);
+        } else
+        {
+            G.Inventory.MoveToMain(_item);
+        }
+        
     }
 
 }
