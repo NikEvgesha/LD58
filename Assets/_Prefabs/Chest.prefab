@@ -83,6 +83,7 @@ MonoBehaviour:
   - item: {fileID: 2526168816406932326, guid: d3a1fbebec45df54888221739bf63110, type: 3}
     weight: 10
   _itemPoint: {fileID: 4361739000648120488}
+  _cons: {fileID: 11400000, guid: b3ce4b731e9f64742865068c4360daa0, type: 2}
 --- !u!65 &4351211687754059199
 BoxCollider:
   m_ObjectHideFlags: 0

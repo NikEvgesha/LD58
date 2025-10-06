@@ -16,8 +16,8 @@ public class GameEntryPoint : MonoBehaviour
         Instantiate(_proceduralGeneration).Init();
 
         Instantiate(_lobbyUI);
-        Instantiate(_player);
         Instantiate(_inventory);
+        Instantiate(_player);
         Instantiate(_gameUI);
 
         G.GameLoader.ShowLoadingImage(false);

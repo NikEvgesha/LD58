@@ -14,6 +14,7 @@ public class Chest : DungeonTreasures
 {
     [SerializeField] private List<Reward> _rewards;
     [SerializeField] private Transform _itemPoint;
+    [SerializeField] private MarketItemData _cons;
     private InteractionPanel _interactionPanel;
     private Animator _animator;
     private BoxCollider _interactionTriggerCollider;
@@ -35,7 +36,10 @@ public class Chest : DungeonTreasures
     public void _OnRaycastHit()
     {
         if (_opened) return;
-        ShowInteractionPanel(true);
+        if (G.Inventory.Consumables[_cons] > 0)
+        {
+            ShowInteractionPanel(true);
+        }
     }
 
     public void _OnRaycastNoHit()
@@ -54,6 +58,7 @@ public class Chest : DungeonTreasures
 
     public void Open()
     {
+        if (!G.Inventory.RemoveConsumable(_cons)) return;
         _audioSource.Play();
         _opened = true;
         _animator.SetTrigger("Open");

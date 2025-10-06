@@ -16,6 +16,8 @@ public class EnemyAuraTrap : DungeonTrap
     [SerializeField] private LayerMask _targetLayers = ~0;
     [Tooltip("Можно ли работать сразу после спавна (иначе ждём Activate())")]
     [SerializeField] private bool _autoArmOnStart = true;
+    [SerializeField] private MarketItemData _cons;
+    [SerializeField] private InteractionPanel _interactionPanel;
 
     [Header("Area")]
     [Tooltip("Радиус ауры урона (берётся из SphereCollider.radius, но можно менять тут)")]
@@ -30,6 +32,10 @@ public class EnemyAuraTrap : DungeonTrap
     [SerializeField, Min(0.1f)] private float _tickInterval = 1.0f;
     [SerializeField] private DamageMode _damageMode = DamageMode.HP;
 
+    [Header("Dead")]
+    [SerializeField] private CollectableItem _item;
+    [SerializeField] private GameObject _itemTrap;
+
     [Header("FX (optional)")]
     [SerializeField] private ParticleSystem _enterFX;
     [SerializeField] private ParticleSystem _tickFX;
@@ -42,6 +48,7 @@ public class EnemyAuraTrap : DungeonTrap
     private SphereCollider _trigger;
     private bool _armed;
     private Coroutine _tickLoop;
+    private bool _isGatcha;
 
     private void Reset()
     {
@@ -113,17 +120,47 @@ public class EnemyAuraTrap : DungeonTrap
     }
     public void _Watching()
     {
+        if (_isGatcha) return;
         G.PlayerStatManager.AddMultipliFear();
+        if (G.Inventory.Consumables[_cons] > 0)
+        {
+            _interactionPanel.gameObject.SetActive(true);
+        }
     }
     public void _DontWatching()
     {
+        if (_isGatcha) return;
         G.PlayerStatManager.RemoveMultipliFear();
+        _interactionPanel.gameObject.SetActive(false);
     }
     private bool IsTarget(Collider col)
     {
         return ((_targetLayers.value & (1 << col.gameObject.layer)) != 0);
     }
+    public void _Gatcha()
+    {
+        if (!G.Inventory.RemoveConsumable(_cons)) return;
+        _interactionPanel.gameObject.SetActive(false);
+        G.PlayerStatManager.RemoveMultipliFear();
+        _isGatcha = true;
 
+        GameObject itemTrap = Instantiate(_itemTrap);
+        CollectableItem item = Instantiate(_item);
+        itemTrap.transform.position = transform.position;
+        item.transform.position = transform.position;
+
+        StartCoroutine(TickGatcha(itemTrap));
+    }
+    private IEnumerator TickGatcha(GameObject itemTrap)
+    {
+        while (transform.localScale.y > 0.1f)
+        {
+            transform.localScale = transform.localScale * (1f - Time.deltaTime);
+            yield return null;
+        }
+        Destroy(itemTrap);
+        Destroy(gameObject);
+    }
     private IEnumerator TickRoutine()
     {
         var wait = new WaitForSeconds(_tickInterval);

@@ -15,6 +15,6 @@ MonoBehaviour:
   _name: Ghost Trap
   _itemType: 0
   _consumableType: 1
-  _price: 200
-  _icon: {fileID: 21300000, guid: 5b8d26daecce6af41b23309fb5a81742, type: 3}
+  _price: 10
+  _icon: {fileID: 21300000, guid: b6019606399f10f40b41d1055fa0bb86, type: 3}
   _description: Well, you can risk catching it

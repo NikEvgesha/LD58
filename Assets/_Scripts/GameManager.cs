@@ -25,13 +25,14 @@ public class GameManager : MonoBehaviour
     {
         GameStart?.Invoke();
         G.IsPaused = false;
+        G.Control.CursorActive = false;
     }
 
-    public void OnGameEnd()
+    public void OnGameEnd(bool win = true)
     {
         G.IsPaused = true;
         // check if win
-        GameEnd?.Invoke(true /*win*/);
+        GameEnd?.Invoke(win /*win*/);
         Transform spawnPoint = GameObject.FindWithTag("SpawnPoint").transform;
         G.PlayerStatManager.transform.position = spawnPoint.position;
     }

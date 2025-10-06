@@ -187,7 +187,6 @@ public class Inventory : MonoBehaviour
         }
     }
 
-
     public bool RemoveConsumable(MarketItemData itemData)
     {
         if (_consumables.ContainsKey(itemData) && _consumables[itemData] > 0) {

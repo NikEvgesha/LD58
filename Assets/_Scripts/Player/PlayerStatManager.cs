@@ -93,6 +93,7 @@ public class PlayerStatManager : MonoBehaviour
         HP = _hpMax;
         Fear = 0;
         G.Game.GameStart.AddListener(StartNew);
+        G.Inventory.ItemUsed.AddListener(UseItem);
     }
     private void StartNew()
     {
@@ -103,6 +104,27 @@ public class PlayerStatManager : MonoBehaviour
     {
         if (G.PlayerStatManager == this)
             G.PlayerStatManager = null;
+    }
+    private void UseItem(MarketItemData useItem)
+    {
+        switch (useItem.ConsumableType)
+        {
+            case ConsumableType.Picklock:
+                break;
+            case ConsumableType.GhostTrap:
+                break;
+            case ConsumableType.HealPotion:
+                HP = _hpMax;
+                break;
+            case ConsumableType.FearPotion:
+                Fear = 0;
+                break;
+            case ConsumableType.Teleport:
+                G.Game.OnGameEnd(true);
+                break;
+            default:
+                break;
+        }
     }
     public void Damage(int damage,PlayerStats stat = PlayerStats.HP)
     {
