@@ -132,7 +132,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 9feee0e2a013fc04f9fa88cd304e50d7, type: 3}
     - target: {fileID: 2486345654944299250, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
       propertyPath: _data.Name
-      value: Book1
+      value: Adventures for dummies
+      objectReference: {fileID: 0}
+    - target: {fileID: 2486345654944299250, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
+      propertyPath: _data.Price
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2486345654944299250, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
       propertyPath: _data.Description

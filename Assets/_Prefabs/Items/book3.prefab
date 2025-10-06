@@ -54,11 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: de077f4ca2095c048b8a69cd2ffe6db4, type: 3}
     - target: {fileID: 2486345654944299250, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
       propertyPath: _data.Name
-      value: Book3
+      value: The grimoire
       objectReference: {fileID: 0}
     - target: {fileID: 2486345654944299250, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
       propertyPath: _data.Price
-      value: 50
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2486345654944299250, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
       propertyPath: _data.Rarity
@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2486345654944299250, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
       propertyPath: _data.Description
-      value: Interesting book
+      value: Read carefully
       objectReference: {fileID: 0}
     - target: {fileID: 5697079886390565768, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
       propertyPath: m_Name

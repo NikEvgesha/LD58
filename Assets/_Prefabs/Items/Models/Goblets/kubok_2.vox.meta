@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 79d6992363ac68d4683578f2b334be5f
+guid: d0d59c7b3c742a949817fb6d51be7ee0
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -10,8 +10,8 @@ ScriptedImporter:
   script: {fileID: 11500000, guid: eeb34f3ead148d04e8630fc3f79cbc1a, type: 3}
   dataVersion: 7
   fileType: 0
-  gameObjectName: kubok
-  meshMode: 1
+  gameObjectName: kubok3
+  meshMode: 0
   importMode: 1
   importScale: {x: 1, y: 1, z: 1}
   importOffset: {x: 0, y: 0, z: 0}
@@ -38,11 +38,11 @@ ScriptedImporter:
   createContactChunkFaces: 0
   materialMode: 0
   materials:
-  - {fileID: -156486658544998735, guid: 79d6992363ac68d4683578f2b334be5f, type: 3}
+  - {instanceID: 0}
   materialNames:
-  - kubok_0
+  - kubok3_0
   remappedMaterials:
-  - name: kubok_0
+  - name: kubok3_0
     material: {instanceID: 0}
   export: 0
   legacyVoxImport: 0

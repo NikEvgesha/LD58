@@ -2140,6 +2140,10 @@ MonoBehaviour:
   _categoryParent: {fileID: 2556543522385477754}
   _categories:
   - {fileID: 11400000, guid: 2881d369ea75cda4ba56b13563d498f3, type: 2}
+  - {fileID: 11400000, guid: 8107a063403f23c42bceff611c2b1562, type: 2}
+  - {fileID: 11400000, guid: a7cc381589915f14892799eba99001d1, type: 2}
+  - {fileID: 11400000, guid: e2fb10abc172798489ed862b715f578f, type: 2}
+  - {fileID: 11400000, guid: 1aebebf0f2ab3fb48bc1cfa6288dd8f3, type: 2}
 --- !u!1 &5575848985011581344
 GameObject:
   m_ObjectHideFlags: 0

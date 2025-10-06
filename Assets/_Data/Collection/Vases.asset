@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b674fd44f91ae447a51c09d30b86545, type: 3}
+  m_Name: Vases
+  m_EditorClassIdentifier: Assembly-CSharp::CollectionCategoryData
+  _name: Vases
+  _items:
+  - {fileID: 2526168816406932326, guid: d3a1fbebec45df54888221739bf63110, type: 3}
+  - {fileID: 2526168816406932326, guid: f5e38096f266aec4d9d9da5f20d6c273, type: 3}
+  - {fileID: 2526168816406932326, guid: d6e100e8d05b49d449782c88d252367c, type: 3}
+  - {fileID: 2526168816406932326, guid: 1a31ce89aebb2264fbc41bf50c412dee, type: 3}
