@@ -7,7 +7,7 @@ public class GameLoader : MonoBehaviour
 {
 
     [SerializeField] private GameObject _loadingImage;
-    [SerializeField] private LoadingProgressBarUI _progressBar;
+    [SerializeField] private GameObject _gameEndPanel;
     private string _currentSceneName;
     private AsyncOperation _asyncOperation;
 
@@ -34,6 +34,12 @@ public class GameLoader : MonoBehaviour
         _loadingImage.SetActive(visible);
     }
 
+
+    public void ShowGameEndImage(bool visible)
+    {
+        _gameEndPanel.SetActive(visible);
+    }
+
     public void LoadNextScene(string SceneName, bool asyncMode)
     {
         _currentSceneName = SceneName;
@@ -58,7 +64,7 @@ public class GameLoader : MonoBehaviour
         while (_asyncOperation.progress < 0.95f)
         {
             loadingProgress = Mathf.Clamp01(_asyncOperation.progress / 0.95f);
-            _progressBar.Progress(_asyncOperation.progress);
+            //_progressBar.Progress(_asyncOperation.progress);
             yield return true;
         }
 

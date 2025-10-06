@@ -31,11 +31,13 @@ public class GameManager : MonoBehaviour
     public void OnGameEnd(bool win = false)
     {
         G.IsPaused = true;
+        G.GameLoader.ShowGameEndImage(true);
         // check if win
         GameEnd?.Invoke(win /*win*/);
         Transform spawnPoint = GameObject.FindWithTag("SpawnPoint").transform;
         G.PlayerStatManager.transform.position = spawnPoint.position;
         G.SaveManager.SaveCollection(G.Inventory.Collected);
+        G.GameLoader.ShowGameEndImage(false);
     }
 
 
