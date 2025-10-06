@@ -65,8 +65,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2486345654944299250, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
+      propertyPath: _data.Icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 9e91bbdeac77d594ca5f048ce68933dd, type: 3}
+    - target: {fileID: 2486345654944299250, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
       propertyPath: _data.Name
-      value: Pumpkin
+      value: Jack-o'-lantern
+      objectReference: {fileID: 0}
+    - target: {fileID: 2486345654944299250, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
+      propertyPath: _data.Description
+      value: Just item
       objectReference: {fileID: 0}
     - target: {fileID: 5697079886390565768, guid: d226ad2ca8064db458d2cdca3930fa65, type: 3}
       propertyPath: m_Name
