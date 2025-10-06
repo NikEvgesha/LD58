@@ -15,6 +15,6 @@ MonoBehaviour:
   _name: Picklock
   _itemType: 0
   _consumableType: 0
-  _price: 1
+  _price: 5
   _icon: {fileID: 21300000, guid: 38222f18cfdebf64fb88f414729e6cb2, type: 3}
   _description: Crook, don't steal
