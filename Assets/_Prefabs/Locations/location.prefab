@@ -49,12 +49,8 @@ MonoBehaviour:
   _cellSize: 10
   _seed: 0
   _locationTiles:
-  - {fileID: 733848132980775224, guid: b5fd1977261168345ae41de70ee8e57f, type: 3}
-  - {fileID: 2094363989874568291, guid: 53ef4ae5b91074e4cb240d0b2e06a63e, type: 3}
-  - {fileID: 6674899942548519583, guid: ee74e719aa7d67c4aa713b4f2d92b269, type: 3}
-  - {fileID: 319192524035961942, guid: 4df1296f0b18cd841af53547348aad78, type: 3}
-  - {fileID: 376321437778085545, guid: 7c2957a7e4190e34fbb67fda4667c80a, type: 3}
-  _startTile: {fileID: 376321437778085545, guid: 3f1e9b6c9657b3c448b66e5f60ae8733, type: 3}
+  - {fileID: 1798351157290020005, guid: e20e0c7ad49c01645b5875e11f4a460f, type: 3}
+  _startTile: {fileID: 5509196673723226903, guid: 6e56531104091af49a712abe76ea8a22, type: 3}
   _clearChildrenOnGenerate: 1
   _generateOnStart: 1
   _log: 0

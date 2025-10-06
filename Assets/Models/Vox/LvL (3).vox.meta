@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: aa3ff991f6b38204fa3a39df77c0c8b3
+guid: b3f5ce7e124360545bbb571e17d33228
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -10,10 +10,10 @@ ScriptedImporter:
   script: {fileID: 11500000, guid: eeb34f3ead148d04e8630fc3f79cbc1a, type: 3}
   dataVersion: 7
   fileType: 0
-  gameObjectName: box
-  meshMode: 0
+  gameObjectName: LvL (3)
+  meshMode: 1
   importMode: 1
-  importScale: {x: 0.025, y: 0.025, z: 0.025}
+  importScale: {x: 0.1, y: 0.1, z: 0.1}
   importOffset: {x: 0, y: 0, z: 0}
   combineFaces: 1
   ignoreCavity: 1
@@ -35,14 +35,14 @@ ScriptedImporter:
   generateMipMaps: 0
   colliderType: 0
   chunkPivotT: {x: 0.5, y: 0.5, z: 0.5}
-  createContactChunkFaces: 0
+  createContactChunkFaces: 1
   materialMode: 0
   materials:
-  - {fileID: -156486658544998735, guid: aa3ff991f6b38204fa3a39df77c0c8b3, type: 3}
+  - {fileID: -156486658544998735, guid: b3f5ce7e124360545bbb571e17d33228, type: 3}
   materialNames:
-  - box_0
+  - LvL (3)_0
   remappedMaterials:
-  - name: box_0
+  - name: LvL (3)_0
     material: {instanceID: 0}
   export: 0
   legacyVoxImport: 0

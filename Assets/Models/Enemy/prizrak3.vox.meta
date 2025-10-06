@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a8b251857185e6e42a1fcd45691aa5a3
+guid: 86dc1a45357a20841afa9b4611911e2e
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -10,10 +10,10 @@ ScriptedImporter:
   script: {fileID: 11500000, guid: eeb34f3ead148d04e8630fc3f79cbc1a, type: 3}
   dataVersion: 7
   fileType: 0
-  gameObjectName: FirstMob (3)
+  gameObjectName: prizrak3
   meshMode: 0
   importMode: 1
-  importScale: {x: 1, y: 1, z: 1}
+  importScale: {x: 0.09, y: 0.09, z: 0.09}
   importOffset: {x: 0, y: 0, z: 0}
   combineFaces: 1
   ignoreCavity: 1
@@ -38,12 +38,12 @@ ScriptedImporter:
   createContactChunkFaces: 0
   materialMode: 0
   materials:
-  - {instanceID: 0}
+  - {fileID: -9128242884405666613, guid: e3e126dac0caae543b196b248f18f3fe, type: 3}
   materialNames:
-  - FirstMob (3)_0
+  - prizrak3_0
   remappedMaterials:
-  - name: FirstMob (3)_0
-    material: {instanceID: 0}
+  - name: prizrak3_0
+    material: {fileID: 2100000, guid: 226df06afdec3184ea78545bcce5ef4b, type: 2}
   export: 0
   legacyVoxImport: 0
   legacyAssetNaming: 0
