@@ -12,6 +12,8 @@ public class Inventory : MonoBehaviour
     private List<CollectableItem> _safeItems;
     private HashSet<CollectableItemData> _collected;
     private Dictionary<MarketItemData, int> _consumables;
+    private AudioSource _audioSource;
+
     public bool IsReady { get; private set; }
     public int SafeBagCapacity => _safeBagCapacity;
     public HashSet<CollectableItemData> Collected => _collected;
@@ -50,6 +52,7 @@ public class Inventory : MonoBehaviour
         _safeItems = new();
         _collected = new();
         _consumables = new();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -76,7 +79,7 @@ public class Inventory : MonoBehaviour
 
     public void Add(CollectableItem item, bool tryAddSafe=true)
     {
-        
+        _audioSource?.Play();
         if (_safeItems.Count < _safeBagCapacity)
         {
             _safeItems.Add(item);

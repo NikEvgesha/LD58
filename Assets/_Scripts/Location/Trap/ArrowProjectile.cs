@@ -21,9 +21,12 @@ public class ArrowProjectile : ManagedBehaviour
     private Rigidbody _rb;
     private bool _hasHit;
 
+    private AudioSource _audioSource;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void Launch(Vector3 direction, float speed)
@@ -76,5 +79,7 @@ public class ArrowProjectile : ManagedBehaviour
 
         if (_destroyOnHit && !_stickOnHit)
             Destroy(gameObject);
+
+        _audioSource.Play();
     }
 }

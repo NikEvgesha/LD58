@@ -101,11 +101,11 @@ public class SpikesTrap : DungeonTrap
         _lastFireTime = Time.time;
 
         if (_vfxDust) _vfxDust.Play();
-        if (_audioSource && _sfxPop) _audioSource.PlayOneShot(_sfxPop);
 
         // подъём
         yield return MoveLocal(_spikesRoot, _downLocalPos, _upLocalPos, _riseTime, _curve);
 
+        if (_audioSource && _sfxPop) _audioSource.PlayOneShot(_sfxPop);
         // УДАР: только если цель всё ещё в зоне (или проверку можно выключить)
         bool shouldHit = true;
         if (_requirePresenceAtImpact)

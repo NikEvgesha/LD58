@@ -33,12 +33,15 @@ public class WallArrowTrap : DungeonTrap
     private int _burstsFired;
     private float _lastBurstTime = -999f;
 
+    private AudioSource _audioSource;
+
     public override void Activate()
     {
         _armed = true;
         _busy = false;
         _burstsFired = 0;
         _lastBurstTime = -999f;
+        _audioSource = GetComponent<AudioSource>();
     }
 
     /// <summary> Вызвать плитой для выстрела. </summary>
@@ -89,6 +92,7 @@ public class WallArrowTrap : DungeonTrap
                 yield return new WaitForSeconds(_shotInterval);
         }
 
+        _audioSource.Play();
         _busy = false;
     }
 }

@@ -17,6 +17,7 @@ public class Chest : DungeonTreasures
     private InteractionPanel _interactionPanel;
     private Animator _animator;
     private BoxCollider _interactionTriggerCollider;
+    private AudioSource _audioSource;
 
     private bool _opened;
     private float _totalWeight;
@@ -25,6 +26,7 @@ public class Chest : DungeonTreasures
     {
         _interactionTriggerCollider = GetComponent<BoxCollider>();
         _interactionPanel = GetComponentInChildren<InteractionPanel>();
+        _audioSource = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
         _interactionPanel.gameObject.SetActive(false);
         _totalWeight = _rewards.Sum(x => x.weight);
@@ -52,6 +54,7 @@ public class Chest : DungeonTreasures
 
     public void Open()
     {
+        _audioSource.Play();
         _opened = true;
         _animator.SetTrigger("Open");
         Destroy(_interactionPanel.gameObject);

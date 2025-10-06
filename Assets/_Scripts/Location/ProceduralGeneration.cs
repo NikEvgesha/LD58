@@ -123,7 +123,7 @@ public class ProceduralGeneration : ManagedBehaviour
 
                 if (BacktrackPlace(nextX, nextY)) return true;
 
-                DestroyImmediate(go);
+                Destroy(go);
                 _grid[x, y] = null;
             }
         }
