@@ -15,6 +15,7 @@ public class Inventory : MonoBehaviour
     public bool IsReady { get; private set; }
     public int SafeBagCapacity => _safeBagCapacity;
     public HashSet<CollectableItemData> Collected => _collected;
+    public Dictionary<MarketItemData, int> Consumables => _consumables;
 
     [HideInInspector]
     public UnityEvent<ReadOnlyCollection<CollectableItem>> ItemsUpdated;
@@ -22,6 +23,13 @@ public class Inventory : MonoBehaviour
     public UnityEvent<ReadOnlyCollection<CollectableItem>> SafeItemsUpdated;
     [HideInInspector]
     public UnityEvent NoSpaceInSafeBag;
+    [HideInInspector]
+    public UnityEvent<CollectableItem> NewItem;
+    [HideInInspector]
+    public UnityEvent<MarketItemData, int> ConsumablesUpdated;
+    [HideInInspector]
+    public UnityEvent<MarketItemData> ItemUsed;
+
 
 
     public ReadOnlyCollection<CollectableItem> Items => _items.AsReadOnly();
@@ -46,6 +54,7 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
+        G.Game.GameStart.AddListener(ResetInventory);
         foreach (MarketItemData item in _marketItems.Values)
         {
             _consumables.Add(item, 0);
@@ -55,7 +64,13 @@ public class Inventory : MonoBehaviour
     }
 
 
-
+    private void ResetInventory()
+    {
+        _items.Clear();
+        _safeItems.Clear();
+        SafeItemsUpdated?.Invoke(_safeItems.AsReadOnly());
+        ItemsUpdated?.Invoke(_items.AsReadOnly());
+    }
 
 
 
@@ -75,6 +90,7 @@ public class Inventory : MonoBehaviour
         if (!_collected.Contains(item.Data))
         {
             _collected.Add(item.Data);
+            NewItem?.Invoke(item);
         }
 
         //item.transform.SetParent(PlayerManager.Instance.transform);
@@ -164,6 +180,7 @@ public class Inventory : MonoBehaviour
     {
         if (_consumables.ContainsKey(itemData)) {
             _consumables[itemData]++;
+            ConsumablesUpdated?.Invoke(itemData, _consumables[itemData]);
         }
     }
 
@@ -172,10 +189,20 @@ public class Inventory : MonoBehaviour
     {
         if (_consumables.ContainsKey(itemData) && _consumables[itemData] > 0) {
             _consumables[itemData]--;
+            ConsumablesUpdated?.Invoke(itemData, _consumables[itemData]);
             return true;
         }
 
         return false;
+    }
+
+
+    public void TryUse(MarketItemData item)
+    {
+        if (RemoveConsumable(item))
+        {
+            ItemUsed?.Invoke(item);
+        }
     }
 
 }

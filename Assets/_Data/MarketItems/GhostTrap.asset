@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da4cbce2f35e404c800810e13fe2d8e, type: 3}
+  m_Name: GhostTrap
+  m_EditorClassIdentifier: Assembly-CSharp::MarketItemData
+  _name: Ghost Trap
+  _itemType: 0
+  _consumableType: 1
+  _price: 200
+  _icon: {fileID: 21300000, guid: b6019606399f10f40b41d1055fa0bb86, type: 3}
+  _description: Well, you can risk catching it

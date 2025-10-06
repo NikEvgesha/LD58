@@ -8,14 +8,27 @@ public class InventoryUI : ManagedBehaviour
 {
     [SerializeField] private GridLayoutGroup _mainGridContent;
     [SerializeField] private Transform _safeGridContent;
+    [SerializeField] private Transform _consumablesParent;
+    [SerializeField] private Transform _usableParent;
     [SerializeField] private InventorySlot _slotPrefab;
+    [SerializeField] private ConsumableSlot _consumableSlotPrefab;
+    [SerializeField] private UsableSlot _usableSlotPrefab;
     [SerializeField] private GameObject _uiPanel;
     [SerializeField] private InputAction _inventoryAction;
+    [SerializeField] private MarketItemsList _marketList;
+
 
     private List<InventorySlot> _mainSlots = new List<InventorySlot>();
     private List<InventorySlot> _safeSlots = new List<InventorySlot>();
+    private List<ConsumableSlot> _consumableSlots = new List<ConsumableSlot>();
+    private List<UsableSlot> _usableSlots = new List<UsableSlot>();
     private bool _isOpen;
     private int _columns;
+
+
+    [SerializeField] private InputAction _usable1;
+    [SerializeField] private InputAction _usable2;
+    [SerializeField] private InputAction _usable3;
 
 
     private void Awake()
@@ -29,6 +42,9 @@ public class InventoryUI : ManagedBehaviour
     private void OnEnable()
     {
         if (_inventoryAction != null) _inventoryAction.Enable();
+        if (_usable1 != null) _usable1.Enable();
+        if (_usable2 != null) _usable2.Enable();
+        if (_usable3 != null) _usable3.Enable();
     }
 
 
@@ -37,12 +53,16 @@ public class InventoryUI : ManagedBehaviour
         G.Inventory.ItemsUpdated.RemoveListener(UpdateItems);
         G.Inventory.SafeItemsUpdated.RemoveListener(UpdateSafeItems);
         if (_inventoryAction != null) _inventoryAction.Disable();
+        if (_usable1 != null) _usable1.Disable();
+        if (_usable2 != null) _usable2.Disable();
+        if (_usable3 != null) _usable3.Disable();
     }
 
     private void Start()
     {
         G.Inventory.ItemsUpdated.AddListener(UpdateItems);
         G.Inventory.SafeItemsUpdated.AddListener(UpdateSafeItems);
+        G.Inventory.ConsumablesUpdated.AddListener(UpdateConsumables);
         for (int i = 0; i < _columns; i++)
         {
             InventorySlot slot = Instantiate(_slotPrefab, _mainGridContent.transform);
@@ -56,6 +76,24 @@ public class InventoryUI : ManagedBehaviour
             slot.Init(null, true);
             _safeSlots.Add(slot);
         }
+
+        foreach (var item in _marketList.Values)
+        {
+            switch (item.ItemType) {
+                case ItemType.Consumable:
+                    ConsumableSlot slot = Instantiate(_consumableSlotPrefab, _consumablesParent);
+                    slot.SetItem(item);
+                    _consumableSlots.Add(slot);
+                    break;
+                case ItemType.Usable:
+                    UsableSlot usableSlot = Instantiate(_usableSlotPrefab, _usableParent);
+                    _usableSlots.Add(usableSlot);
+                    usableSlot.SetIndex(_usableSlots.Count);
+                    break;
+                default: break;
+            }
+        }
+
 
     }
 
@@ -74,6 +112,20 @@ public class InventoryUI : ManagedBehaviour
         {
             _ToggleOpen();
         }
+
+        if (_usable1.triggered)
+        {
+            UsableClicked(1);
+        }
+        if (_usable2.triggered)
+        {
+            UsableClicked(2);
+        }
+        if (_usable3.triggered)
+        {
+            UsableClicked(3);
+        }
+
     }
 
     public void _ToggleOpen()
@@ -138,5 +190,30 @@ public class InventoryUI : ManagedBehaviour
         }
 
     }
+
+
+    public void UsableClicked(int index)
+    {
+        if (!_usableSlots[index-1].Empty)
+        {
+            G.Inventory.TryUse(_usableSlots[index - 1].Item);
+        }
+    }
+
+
+    public void UpdateConsumables(MarketItemData item, int amount)
+    {
+        if (item.ItemType == ItemType.Usable) {
+            UsableSlot slot = _usableSlots.Find(x => x.Item == item);
+            if (slot == null)
+            {
+                slot = _usableSlots.Find(x => x.Empty);
+                if (slot != null)
+                {
+                    slot.SetItem(item, amount);
+                }
+            }
+        }
+    } 
 
 }

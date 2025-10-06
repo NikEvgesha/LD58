@@ -404,7 +404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8000913040762188868, guid: 2f303dda7a1c5fc4fac474e3caff49cc, type: 3}
       propertyPath: _speed
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8000913040762188868, guid: 2f303dda7a1c5fc4fac474e3caff49cc, type: 3}
       propertyPath: _interactionAction.m_SingletonActionBindings.Array.size
