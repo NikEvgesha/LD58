@@ -148,6 +148,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  MaxDistance: 3
 --- !u!65 &1843895985013533924
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -167,8 +168,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.4, y: 2.9, z: 1.6}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.7241826, y: 2.9, z: 1.6}
+  m_Center: {x: 0.022980452, y: 0, z: 0}
 --- !u!1001 &7419085755480932755
 PrefabInstance:
   m_ObjectHideFlags: 0

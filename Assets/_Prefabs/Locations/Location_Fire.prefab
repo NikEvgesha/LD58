@@ -151,6 +151,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1129464360444307154, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448282133649186686, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1559322911082478574, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -203,9 +211,17 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3069504260962121614, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3450050300885982696, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
       propertyPath: m_Name
       value: Location_Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242848950654848938, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6653493824355320485, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
       propertyPath: m_SizeDelta.x
@@ -251,7 +267,11 @@ PrefabInstance:
       propertyPath: _trapOptions.Array.data[0].trapComponent
       value: 
       objectReference: {fileID: 1632830666018388261}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2543148545952041009, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 6608653996556644609, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 6436627374938830081, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 2186808583148062389, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
     m_RemovedGameObjects:
     - {fileID: 7440297772162106142, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
     - {fileID: 2797958848922501924, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
@@ -272,6 +292,13 @@ PrefabInstance:
     - {fileID: 6648568700338698542, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
     - {fileID: 7083142976992472345, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
     - {fileID: 2672873904528938443, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 6145731859098476464, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 2201386777194011928, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 6501730560238482485, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 8060685039909968655, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 3950476590507324023, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 7879985618025695248, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 6042441032998478048, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1703171797419383500, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
       insertIndex: -1

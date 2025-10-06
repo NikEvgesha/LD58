@@ -50,6 +50,15 @@ MonoBehaviour:
   _seed: 0
   _locationTiles:
   - {fileID: 1798351157290020005, guid: e20e0c7ad49c01645b5875e11f4a460f, type: 3}
+  - {fileID: 6286743059136799378, guid: 83dd5b3e4a0192245b2d554ff2dfe43f, type: 3}
+  - {fileID: 6286743059136799378, guid: c3ac349eaf25d08439cdd33908ed8c75, type: 3}
+  - {fileID: 1321779332662357464, guid: 5ba1680c71fe6644fbc3c6fabf7ec3a4, type: 3}
+  - {fileID: 1321779332662357464, guid: ebd57ebd72c60fc4899dee18c3ad1cce, type: 3}
+  - {fileID: 1321779332662357464, guid: 52723da8cb0cd174897d577574d44c84, type: 3}
+  - {fileID: 8782936959165145947, guid: 2f6b3eff60a5630448c215b8b122b4b7, type: 3}
+  - {fileID: 8782936959165145947, guid: 3a18d5db44fbb8945b5839d45ec40c23, type: 3}
+  - {fileID: 8782936959165145947, guid: 0703aec633fa27f459ef0679a5f8c30b, type: 3}
+  - {fileID: 8782936959165145947, guid: 5cb1f2063fa639148a51c55714c22c3b, type: 3}
   _startTile: {fileID: 5509196673723226903, guid: 6e56531104091af49a712abe76ea8a22, type: 3}
   _clearChildrenOnGenerate: 1
   _generateOnStart: 1

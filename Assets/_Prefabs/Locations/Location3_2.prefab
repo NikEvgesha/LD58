@@ -524,13 +524,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -66.849
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2464626519243652935, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 126295092090710472, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 7580957196280568249, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
     m_RemovedGameObjects:
     - {fileID: 7440297772162106142, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
     - {fileID: 2797958848922501924, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
     - {fileID: 1531607203007817407, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
     - {fileID: 2798345435457388598, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
     - {fileID: 1256550784502828600, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 1559322911082478574, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 1723890314719068948, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 5229054330334426852, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 3755178968982526019, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 1573284340552427582, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
+    - {fileID: 6871525824429579942, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}

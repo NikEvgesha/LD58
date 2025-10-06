@@ -26,7 +26,7 @@ public class ProceduralGeneration : ManagedBehaviour
     private System.Random _rng;
     private class Placed { public LocationTile prefab; public int rot; public GameObject go; }
     private Placed[,] _grid;
-
+    private int _debug = 0;
     public void Init()
     {
         if (_generateOnStart) Generate();
@@ -36,6 +36,8 @@ public class ProceduralGeneration : ManagedBehaviour
     [ContextMenu("Generate")]
     public void Generate(bool win = false)
     {
+
+        _debug = 0;
         _seed = 0;
         if (_locationTiles == null || _locationTiles.Count == 0)
         {
@@ -94,10 +96,13 @@ public class ProceduralGeneration : ManagedBehaviour
 
     private bool BacktrackPlace(int x, int y)
     {
+        if (_debug > 1000) return false;
+        _debug++;
+        Debug.Log(_debug);
+
         if (y >= _height) return true;
         int nextX = (x + 1) % _width;
         int nextY = y + ((x + 1) / _width);
-
         // пропускаем центр
         if (_grid[x, y] != null) return BacktrackPlace(nextX, nextY);
 
