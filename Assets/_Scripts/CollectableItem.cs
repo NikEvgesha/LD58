@@ -21,7 +21,6 @@ public class CollectableItem : MonoBehaviour
     private Outline _outline;
     private bool _interactable;
 
-
     public CollectableItemData Data => _data;
 
     private void Awake()

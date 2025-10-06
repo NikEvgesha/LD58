@@ -32,8 +32,7 @@ public class CurrencyManager : MonoBehaviour
 
     private void Start()
     {
-        
-        AddCurrency(_startCoinsAmount);
+        AddCurrency(G.SaveManager.LoadCoins());
     }
 
 
@@ -50,6 +49,7 @@ public class CurrencyManager : MonoBehaviour
         //        _audioSource.PlayOneShot(_audioSell);
         _amount += amount;
         CurrencyChanged?.Invoke(_amount);
+        G.SaveManager.SaveCoins(_amount);
        //G.SaveManager.SaveGameCoin(_balance[type]);
     }
 
@@ -63,6 +63,7 @@ public class CurrencyManager : MonoBehaviour
 
             _amount -= amount;
             CurrencyChanged?.Invoke(_amount);
+            G.SaveManager.SaveCoins(_amount);
             //G.SaveManager.SaveGameCoin(_balance[type]);
             return true;
         }

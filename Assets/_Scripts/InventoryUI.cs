@@ -79,16 +79,21 @@ public class InventoryUI : ManagedBehaviour
 
         foreach (var item in _marketList.Values)
         {
+            int amount = G.Inventory.Consumables[item];
             switch (item.ItemType) {
                 case ItemType.Consumable:
                     ConsumableSlot slot = Instantiate(_consumableSlotPrefab, _consumablesParent);
-                    slot.SetItem(item);
+                    slot.SetItem(item, amount);
                     _consumableSlots.Add(slot);
                     break;
                 case ItemType.Usable:
                     UsableSlot usableSlot = Instantiate(_usableSlotPrefab, _usableParent);
                     _usableSlots.Add(usableSlot);
                     usableSlot.SetIndex(_usableSlots.Count);
+                    if (amount > 0)
+                    {
+                        usableSlot.SetItem(item, amount);
+                    }
                     break;
                 default: break;
             }
@@ -204,7 +209,7 @@ public class InventoryUI : ManagedBehaviour
     public void UpdateConsumables(MarketItemData item, int amount)
     {
         if (item.ItemType == ItemType.Usable) {
-            UsableSlot slot = _usableSlots.Find(x => x.Item == item);
+            UsableSlot slot = _usableSlots.Find(x => x != null && x.Item == item);
             if (slot == null)
             {
                 slot = _usableSlots.Find(x => x.Empty);

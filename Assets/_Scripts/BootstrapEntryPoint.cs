@@ -14,6 +14,7 @@ public class BootstrapEntryPoint : MonoBehaviour
     [SerializeField] private CurrencyManager _cuurencyManager;
 
 
+
     [SerializeField] private GameScene _gameScene;
 
 

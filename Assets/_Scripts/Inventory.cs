@@ -55,17 +55,26 @@ public class Inventory : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    private void Start()
+
+    public void Init()
     {
         G.Game.GameStart.AddListener(ResetInventory);
         foreach (MarketItemData item in _marketItems.Values)
         {
+            int amount = G.SaveManager.LoadItem(item);
             _consumables.Add(item, 0);
+            for (int i = 0; i < amount; i++)
+            {
+                AddConsumable(item);
+            }
         }
-             
         IsReady = true;
     }
 
+    private void Start()
+    {
+        
+    }
 
     private void ResetInventory()
     {
@@ -184,6 +193,7 @@ public class Inventory : MonoBehaviour
         if (_consumables.ContainsKey(itemData)) {
             _consumables[itemData]++;
             ConsumablesUpdated?.Invoke(itemData, _consumables[itemData]);
+            G.SaveManager.SaveItem(itemData, _consumables[itemData]);
         }
     }
 
@@ -192,6 +202,7 @@ public class Inventory : MonoBehaviour
         if (_consumables.ContainsKey(itemData) && _consumables[itemData] > 0) {
             _consumables[itemData]--;
             ConsumablesUpdated?.Invoke(itemData, _consumables[itemData]);
+            G.SaveManager.SaveItem(itemData, _consumables[itemData]);
             return true;
         }
 
@@ -205,6 +216,11 @@ public class Inventory : MonoBehaviour
         {
             ItemUsed?.Invoke(item);
         }
+    }
+
+    public void SetCollected(List<CollectableItemData> itemsData)
+    {
+        _collected = new HashSet<CollectableItemData>(itemsData);
     }
 
 }

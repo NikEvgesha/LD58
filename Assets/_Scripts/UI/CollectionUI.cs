@@ -10,6 +10,8 @@ public class CollectionUI : MonoBehaviour
 
     private List<CollectionSlot> _slots = new();
     private bool _isOpened;
+    private List<string> _loadedCollected = new List<string>();
+    private List<CollectableItemData> _colected = new List<CollectableItemData>();
 
 
     private void Start()
@@ -19,6 +21,18 @@ public class CollectionUI : MonoBehaviour
             CollectionCategoryPanel categoryPanel = Instantiate(_categoryPanelPrefab, _categoryParent);
             _slots.AddRange(categoryPanel.Init(category));
         }
+        _loadedCollected = G.SaveManager.LoadCollection();
+
+        foreach (var slot in _slots)
+        {
+            bool collected = _loadedCollected.Contains(slot.Item.Data.Name);
+            slot.SetOwned(collected);
+            if (collected)
+                _colected.Add(slot.Item.Data);
+        }
+
+        G.Inventory.SetCollected(_colected);
+
     }
 
 
@@ -37,4 +51,8 @@ public class CollectionUI : MonoBehaviour
             slot.SetOwned(G.Inventory.Collected.Contains(slot.Item.Data));
         }
     }
+
+
+
+
 }

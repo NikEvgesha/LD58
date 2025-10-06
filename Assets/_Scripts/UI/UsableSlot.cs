@@ -22,7 +22,10 @@ public class UsableSlot : MonoBehaviour {
 
     private void Start()
     {
-        SetActive(false);
+        if (_empty)
+        {
+            SetActive(false);    
+        }
     }
 
     public void SetItem(MarketItemData item, int amount)
@@ -36,6 +39,7 @@ public class UsableSlot : MonoBehaviour {
 
     private void CheckUpdate(MarketItemData item, int amount)
     {
+        if (_item == null) return;
         if (_item.Name == item.Name)
         {
             if (amount > 0)

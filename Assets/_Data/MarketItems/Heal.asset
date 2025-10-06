@@ -15,6 +15,6 @@ MonoBehaviour:
   _name: Heal Potion
   _itemType: 2
   _consumableType: 2
-  _price: 30
+  _price: 1
   _icon: {fileID: 21300000, guid: 99bdef56541a62d4e832a7d15eb3a448, type: 3}
   _description: Consult your doctor before use

@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
         GameEnd?.Invoke(win /*win*/);
         Transform spawnPoint = GameObject.FindWithTag("SpawnPoint").transform;
         G.PlayerStatManager.transform.position = spawnPoint.position;
+        G.SaveManager.SaveCollection(G.Inventory.Collected);
     }
 
 

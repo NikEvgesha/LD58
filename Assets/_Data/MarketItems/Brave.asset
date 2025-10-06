@@ -15,6 +15,6 @@ MonoBehaviour:
   _name: Brave Potion
   _itemType: 2
   _consumableType: 3
-  _price: 20
+  _price: 1
   _icon: {fileID: 21300000, guid: f4f16f40bbfd3814c8203286670858e3, type: 3}
   _description: Contraindicated for children

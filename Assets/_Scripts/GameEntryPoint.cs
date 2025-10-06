@@ -13,11 +13,12 @@ public class GameEntryPoint : MonoBehaviour
 
     private void Start()
     {
+        Instantiate(_inventory).Init();
         Instantiate(_proceduralGeneration).Init();
 
         Instantiate(_lobbyUI);
-        Instantiate(_inventory);
         Instantiate(_player);
+        
         Instantiate(_gameUI);
 
         G.GameLoader.ShowLoadingImage(false);

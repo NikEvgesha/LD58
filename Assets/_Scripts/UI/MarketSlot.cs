@@ -42,7 +42,7 @@ public class MarketSlot : MonoBehaviour
 
     private void CheckPrice(int amount)
     {
-        if (G.Currency.Coins <= _itemData.Price)
+        if (G.Currency.Coins < _itemData.Price)
         {
             _price.color = Color.red;
             _button.interactable = false;

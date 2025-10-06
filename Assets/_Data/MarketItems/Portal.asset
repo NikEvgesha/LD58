@@ -15,6 +15,6 @@ MonoBehaviour:
   _name: Portal Stone
   _itemType: 2
   _consumableType: 4
-  _price: 100
+  _price: 1
   _icon: {fileID: 21300000, guid: 23b30fc3fbb3c7844a4a21a5e6304332, type: 3}
   _description: ' Don''t panic and follow the evacuation plan from the dungeon'
