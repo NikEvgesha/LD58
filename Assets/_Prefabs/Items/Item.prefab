@@ -112,6 +112,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  MaxDistance: 4
 --- !u!114 &2486345654944299250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,7 +453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8697329808662788968, guid: 2f303dda7a1c5fc4fac474e3caff49cc, type: 3}
       propertyPath: m_Text
-      value: "\u0421\u043E\u0431\u0440\u0430\u0442\u044C"
+      value: Collect
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

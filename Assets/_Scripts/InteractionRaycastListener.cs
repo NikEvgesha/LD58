@@ -6,6 +6,8 @@ public class InteractionRaycastListener : MonoBehaviour
     [SerializeField] public UnityEvent _hitEvent;
     [SerializeField] public UnityEvent _noHitEvent;
 
+    [SerializeField] public float MaxDistance;
+
     private void OnDestroy()
     {
         _hitEvent.RemoveAllListeners();

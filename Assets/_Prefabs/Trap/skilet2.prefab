@@ -379,6 +379,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  MaxDistance: 10
 --- !u!65 &6059456945202074016
 BoxCollider:
   m_ObjectHideFlags: 0

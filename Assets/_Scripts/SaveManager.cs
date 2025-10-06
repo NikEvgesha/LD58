@@ -54,4 +54,9 @@ public class SaveManager : MonoBehaviour
         return PlayerPrefs.GetInt(item.Name, 0);
     }
 
+    public void Reset()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
 }

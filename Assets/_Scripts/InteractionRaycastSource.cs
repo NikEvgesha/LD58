@@ -37,7 +37,8 @@ public class InteractionRaycastSource : MonoBehaviour
         }
         if (Physics.Raycast(origin, _direction, out var intHit, _raycastDistance, _interactableMask, QueryTriggerInteraction.Collide)
             && intHit.distance <= maxVisibleDist
-            && intHit.transform.TryGetComponent(out InteractionRaycastListener listener))
+            && intHit.transform.TryGetComponent(out InteractionRaycastListener listener)
+            && listener.MaxDistance > Vector3.Distance(transform.position, listener.transform.position))
         {
             //Debug.Log(intHit.transform.gameObject.name+": " + intHit.distance);
             if (_lastHit != listener)

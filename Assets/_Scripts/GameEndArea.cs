@@ -4,6 +4,6 @@ public class GameEndArea : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        G.Game.OnGameEnd();
+        G.Game.OnGameEnd(true);
     }
 }

@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
         G.Control.CursorActive = false;
     }
 
-    public void OnGameEnd(bool win = true)
+    public void OnGameEnd(bool win = false)
     {
         G.IsPaused = true;
         // check if win

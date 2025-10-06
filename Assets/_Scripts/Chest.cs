@@ -39,6 +39,9 @@ public class Chest : DungeonTreasures
         if (G.Inventory.Consumables[_cons] > 0)
         {
             ShowInteractionPanel(true);
+        } else
+        {
+            G.Inventory.NoConsumable.Invoke(_cons);
         }
     }
 

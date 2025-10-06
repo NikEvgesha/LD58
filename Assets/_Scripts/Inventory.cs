@@ -31,6 +31,8 @@ public class Inventory : MonoBehaviour
     public UnityEvent<MarketItemData, int> ConsumablesUpdated;
     [HideInInspector]
     public UnityEvent<MarketItemData> ItemUsed;
+    [HideInInspector]
+    public UnityEvent<MarketItemData> NoConsumable;
 
 
 
@@ -205,7 +207,7 @@ public class Inventory : MonoBehaviour
             G.SaveManager.SaveItem(itemData, _consumables[itemData]);
             return true;
         }
-
+        //NoConsumable?.Invoke(itemData);
         return false;
     }
 
