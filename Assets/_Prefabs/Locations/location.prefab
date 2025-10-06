@@ -59,9 +59,11 @@ MonoBehaviour:
   - {fileID: 8782936959165145947, guid: 3a18d5db44fbb8945b5839d45ec40c23, type: 3}
   - {fileID: 8782936959165145947, guid: 0703aec633fa27f459ef0679a5f8c30b, type: 3}
   - {fileID: 8782936959165145947, guid: 5cb1f2063fa639148a51c55714c22c3b, type: 3}
+  - {fileID: 8782936959165145947, guid: ba1874105ec4ef1469a5ba351d5bc875, type: 3}
   _startTile: {fileID: 5509196673723226903, guid: 6e56531104091af49a712abe76ea8a22, type: 3}
   _clearChildrenOnGenerate: 1
   _generateOnStart: 1
   _log: 0
+  _allowStartTileInPool: 0
   _instantiateOverFrames: 0
   _instantiatesPerFrame: 64
