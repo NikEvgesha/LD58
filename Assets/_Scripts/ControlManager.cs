@@ -23,7 +23,7 @@ public class ControlManager : MonoBehaviour
         {
             //if (_useTouchControls)
             //    return;
-
+/*
             if (value)
             {
                 _activeWindows++;
@@ -33,7 +33,7 @@ public class ControlManager : MonoBehaviour
                 _activeWindows = _activeWindows > 0 ? _activeWindows - 1 : 0 ;
                 if (_activeWindows > 0) return;
             }
-
+*/
             //if (_provider && _provider.IsInitialized())
             //{
             //        _cursorActive = value;

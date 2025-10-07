@@ -629,7 +629,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8134963499672304999, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
       propertyPath: weight
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8134963499672304999, guid: 9da6e45ea99100e4e95542d6a6b9d093, type: 3}
       propertyPath: _sides.Array.size

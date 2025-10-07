@@ -21,28 +21,31 @@ public class ProceduralGeneration : ManagedBehaviour
     [Header("Опции")]
     [SerializeField] private bool _clearChildrenOnGenerate = true;
     [SerializeField] private bool _generateOnStart = true;
-    [SerializeField] private bool _log = false; 
-    [SerializeField] private bool _allowStartTileInPool = false; // можно ли класть стартовый тайл в обычный пул
-    private int _startIdx; // индекс стартового тайла в пуле
+    [SerializeField] private bool _log = false;
 
-    [SerializeField] private bool _instantiateOverFrames = false;   // опция: размазать инстансы по кадрам
-    [SerializeField, Min(1)] private int _instantiatesPerFrame = 64;
+    [Header("Плавный спавн готового плана")]
+    [SerializeField, Min(1)] private int _spawnPerFrame = 64;
 
     private System.Random _rng;
 
-    // ----- Данные для решения без объектов
-    private struct Cell { public short tile; public byte rot; public bool filled; }
-    private Cell[,] _gridData;             // только индексы и ротации
-    private Openings[,] _maskCache;        // [tileIdx, rot]
-    private int _tilesCount;
+    // ==== ПЛАН (без GameObject) ====
+    private struct PlanCell
+    {
+        public LocationTile tile;
+        public int rot;           // 0..3
+        public Openings mask;     // кэш маски для rot
+        public bool hasValue;
+    }
+    private PlanCell[,] _plan;    // решение без объектов
 
-    // ----- Разовое событие Init
-    private bool _inited;
+    // ==== Инстансированный грид ====
+    private GameObject[,] _spawned;
+
+    // Кэш поворотов на тайл, перегенерируется на каждую генерацию (для разнообразия)
+    private Dictionary<LocationTile, int[]> _rotCache = new();
+
     public void Init()
     {
-        if (_inited) return;
-        _inited = true;
-
         if (_generateOnStart) Generate();
         G.Game.GameEnd.AddListener(Generate);
     }
@@ -50,235 +53,266 @@ public class ProceduralGeneration : ManagedBehaviour
     [ContextMenu("Generate")]
     public void Generate(bool _ = false)
     {
+        _seed = 0;
         if (_locationTiles == null || _locationTiles.Count == 0)
         {
-            Debug.LogError("Нет тайлов в _locationTiles."); return;
+            Debug.LogError("Нет тайлов в _locationTiles.");
+            return;
         }
         if (_startTile == null)
         {
-            Debug.LogError("Не задан Start Tile!"); return;
+            Debug.LogError("Не задан Start Tile!");
+            return;
         }
-        // --- добавляем StartTile во внутренний список, если его там нет
-        int startIdx = _locationTiles.IndexOf(_startTile);
-        if (startIdx < 0)
-        {
-            _locationTiles.Insert(0, _startTile); // временно добавляем его в пул
-            startIdx = 0;
-        }
-        _startIdx = startIdx;
 
-        if (_seed == 0) _seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        // Сид
+        if (_seed == 0)
+            _seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
         _rng = new System.Random(_seed);
         if (_log) Debug.Log($"Seed: {_seed}");
 
+        // Чистим детей (видимые объекты)
         if (_clearChildrenOnGenerate)
         {
             for (int i = transform.childCount - 1; i >= 0; i--)
                 Destroy(transform.GetChild(i).gameObject);
         }
 
-        _tilesCount = _locationTiles.Count;
-        BuildMaskCache();               // кэшируем все маски поворотов
-        _gridData = new Cell[_width, _height];
+        _plan = new PlanCell[_width, _height];
+        _spawned = new GameObject[_width, _height];
+        _rotCache.Clear();
 
-        // ставим заданный стартовый тайл (центр)
-        int cx = _width / 2, cy = _height / 2;
-        if (!PlaceStartData(cx, cy))
+        // Подготовка: кэш ротаций
+        PrecomputeRotations();
+
+        // 1) Ставим фиксированный старт в центр (только в плане, без Instantiate)
+        var (cx, cy) = (_width / 2, _height / 2);
+        if (!PlanPlaceStart(cx, cy))
         {
-            Debug.LogWarning("Не удалось поставить стартовый тайл."); return;
+            Debug.LogWarning("Не удалось подобрать поворот для стартового тайла (нужна ровно одна открытая сторона).");
+            return;
         }
 
-        // решаем остальное БЕЗ инстансов
-        if (!BacktrackPlaceData(0, 0))
+        // 2) Бэктрекинг по плану (без объектов)
+        var tilesInOrder = WeightedOrder(_locationTiles); // разовая взвешенная перестановка
+        bool ok = BacktrackPlacePlan(NextCoord(0, 0), tilesInOrder);
+
+        if (!ok)
         {
             Debug.LogWarning("Не удалось собрать карту, попробуй другой сид.");
             return;
         }
 
-        // один проход по сетке: создаём объекты
-        if (_instantiateOverFrames)
-            StartCoroutine(InstantiateAllOverFrames());
-        else
-            InstantiateAllImmediate();
+        if (_log) Debug.Log("План готов, начинаю спавн по кадрам…");
 
-        if (_log) Debug.Log("Готово!");
+        // 3) Спавним по плану — батчами за несколько кадров
+        StopAllCoroutines();
+        StartCoroutine(SpawnPlanCoroutine());
     }
 
-    #region Data phase (no GameObjects)
-    private void BuildMaskCache()
+    // -------------------------------------------------
+    //                 ПОДГОТОВКА ДАННЫХ
+    // -------------------------------------------------
+    private void PrecomputeRotations()
     {
-        _maskCache = new Openings[_tilesCount, 4];
-        for (int i = 0; i < _tilesCount; i++)
+        // Для каждого тайла — список разрешённых четвертных поворотов, случайно перемешанный
+        foreach (var t in _locationTiles)
         {
-            var t = _locationTiles[i];
-            // если нельзя крутить — копии будут одинаковые
-            for (int r = 0; r < 4; r++)
-                _maskCache[i, r] = t.MaskWithRotation(r);
+            if (!_rotCache.ContainsKey(t))
+                _rotCache[t] = BuildShuffledRots(t);
         }
+        if (!_rotCache.ContainsKey(_startTile))
+            _rotCache[_startTile] = BuildShuffledRots(_startTile);
     }
 
-    private bool PlaceStartData(int x, int y)
+    private int[] BuildShuffledRots(LocationTile t)
     {
-        int idx = _startIdx;
+        if (!t.AllowRotation)
+            return new[] { 0 };
 
-        if (idx < 0) { Debug.LogError("StartTile не найден в списке _locationTiles."); return false; }
-
-        var rots = EnumerateRotationsIndices(_startTile);
-        foreach (var r in rots)
+        int[] rots = { 0, 1, 2, 3 };
+        // Фишер-Йетс
+        for (int i = rots.Length - 1; i > 0; i--)
         {
-            var mask = _maskCache[idx, r];
+            int j = _rng.Next(i + 1);
+            (rots[i], rots[j]) = (rots[j], rots[i]);
+        }
+        return rots;
+    }
+
+    // -------------------------------------------------
+    //                   ПЛАНИРОВАНИЕ
+    // -------------------------------------------------
+    private bool PlanPlaceStart(int x, int y)
+    {
+        var rots = _rotCache[_startTile];
+        for (int i = 0; i < rots.Length; i++)
+        {
+            int rot = rots[i];
+            var mask = _startTile.MaskWithRotation(rot);
             if (CountBits(mask) != 1) continue;
-            _gridData[x, y] = new Cell { tile = (short)idx, rot = (byte)r, filled = true };
+
+            _plan[x, y] = new PlanCell { tile = _startTile, rot = rot, mask = mask, hasValue = true };
             return true;
         }
         return false;
     }
 
-    private bool BacktrackPlaceData(int x, int y)
+    private (int x, int y) NextCoord(int x, int y)
     {
-        if (y >= _height) return true;
         int nextX = (x + 1) % _width;
         int nextY = y + ((x + 1) / _width);
+        return (nextX, nextY);
+    }
 
-        // пропускаем занятое (центр)
-        if (_gridData[x, y].filled) return BacktrackPlaceData(nextX, nextY);
+    private bool BacktrackPlacePlan((int x, int y) coord, List<LocationTile> tilesInOrder)
+    {
+        int x = coord.x;
+        int y = coord.y;
 
-        // взвешенная случайная перестановка индексов тайлов
-        var order = WeightedIndexShuffle(_locationTiles, _rng);
-        foreach (int tileIdx in order)
+        // Конец? — план готов
+        if (y >= _height) return true;
+
+        // Пропускаем уже заполненные (например, центр)
+        if (_plan[x, y].hasValue)
+            return BacktrackPlacePlan(NextCoord(x, y), tilesInOrder);
+
+        // Ограничения по краям в виде маски запретов
+        // (если на границе — соответствующая сторона обязана быть закрыта)
+        // Мы просто отбрасываем варианты, где маска «смотрит наружу».
+        foreach (var tile in tilesInOrder)
         {
-            if (!_allowStartTileInPool && tileIdx == _startIdx) continue;
-
-            var tile = _locationTiles[tileIdx];
-            foreach (int rot in EnumerateRotationsIndices(tile))
+            var rots = _rotCache[tile];
+            for (int i = 0; i < rots.Length; i++)
             {
-                // границы
-                var mask = _maskCache[tileIdx, rot];
-                if (x == 0 && mask.HasFlag(Openings.West)) continue;
-                if (x == _width - 1 && mask.HasFlag(Openings.East)) continue;
-                if (y == 0 && mask.HasFlag(Openings.South)) continue;
-                if (y == _height - 1 && mask.HasFlag(Openings.North)) continue;
+                int rot = rots[i];
+                var mask = tile.MaskWithRotation(rot);
 
-                if (!MatchesNeighborsData(x, y, mask)) continue;
+                // Границы поля
+                if (x == 0 && Has(mask, Openings.West)) continue;
+                if (x == _width - 1 && Has(mask, Openings.East)) continue;
+                if (y == 0 && Has(mask, Openings.South)) continue;
+                if (y == _height - 1 && Has(mask, Openings.North)) continue;
 
-                _gridData[x, y] = new Cell { tile = (short)tileIdx, rot = (byte)rot, filled = true };
+                // Согласование с уже поставленными соседями
+                if (!MatchesNeighborsPlan(x, y, mask)) continue;
 
-                if (BacktrackPlaceData(nextX, nextY)) return true;
+                // Поставили в план
+                _plan[x, y] = new PlanCell { tile = tile, rot = rot, mask = mask, hasValue = true };
 
-                _gridData[x, y].filled = false; // откат
+                if (BacktrackPlacePlan(NextCoord(x, y), tilesInOrder))
+                    return true;
+
+                // Откат
+                _plan[x, y].hasValue = false;
             }
         }
+
         return false;
     }
 
-    private bool MatchesNeighborsData(int x, int y, Openings maskHere)
+    private bool MatchesNeighborsPlan(int x, int y, Openings here)
     {
-        if (x - 1 >= 0 && _gridData[x - 1, y].filled)
+        // LEFT
+        if (x - 1 >= 0 && _plan[x - 1, y].hasValue)
         {
-            var left = _maskCache[_gridData[x - 1, y].tile, _gridData[x - 1, y].rot];
-            bool need = left.HasFlag(Openings.East);
-            if (need != maskHere.HasFlag(Openings.West)) return false;
+            var leftMask = _plan[x - 1, y].mask;
+            bool needConnect = Has(leftMask, Openings.East);
+            if (needConnect != Has(here, Openings.West)) return false;
         }
-        if (x + 1 < _width && _gridData[x + 1, y].filled)
+        // RIGHT
+        if (x + 1 < _width && _plan[x + 1, y].hasValue)
         {
-            var right = _maskCache[_gridData[x + 1, y].tile, _gridData[x + 1, y].rot];
-            bool need = right.HasFlag(Openings.West);
-            if (need != maskHere.HasFlag(Openings.East)) return false;
+            var rightMask = _plan[x + 1, y].mask;
+            bool needConnect = Has(rightMask, Openings.West);
+            if (needConnect != Has(here, Openings.East)) return false;
         }
-        if (y - 1 >= 0 && _gridData[x, y - 1].filled)
+        // DOWN
+        if (y - 1 >= 0 && _plan[x, y - 1].hasValue)
         {
-            var bottom = _maskCache[_gridData[x, y - 1].tile, _gridData[x, y - 1].rot];
-            bool need = bottom.HasFlag(Openings.North);
-            if (need != maskHere.HasFlag(Openings.South)) return false;
+            var bottomMask = _plan[x, y - 1].mask;
+            bool needConnect = Has(bottomMask, Openings.North);
+            if (needConnect != Has(here, Openings.South)) return false;
         }
-        if (y + 1 < _height && _gridData[x, y + 1].filled)
+        // UP
+        if (y + 1 < _height && _plan[x, y + 1].hasValue)
         {
-            var top = _maskCache[_gridData[x, y + 1].tile, _gridData[x, y + 1].rot];
-            bool need = top.HasFlag(Openings.South);
-            if (need != maskHere.HasFlag(Openings.North)) return false;
+            var topMask = _plan[x, y + 1].mask;
+            bool needConnect = Has(topMask, Openings.South);
+            if (needConnect != Has(here, Openings.North)) return false;
         }
         return true;
     }
-    #endregion
 
-    #region Instantiate phase
-    private void InstantiateAllImmediate()
-    {
-        for (int y = 0; y < _height; y++)
-            for (int x = 0; x < _width; x++)
-            {
-                if (!_gridData[x, y].filled) continue;
-                var c = _gridData[x, y];
-                var prefab = _locationTiles[c.tile];
-                var go = Instantiate(prefab.gameObject, IndexToWorld(x, y), RotationFromQuarterTurns(c.rot), transform);
-
-                // без GetComponent через prefab? норм, но здесь ок:
-                go.GetComponent<LocationTile>()?.SetupRuntime(_rng);
-            }
-    }
-
-    private System.Collections.IEnumerator InstantiateAllOverFrames()
+    // -------------------------------------------------
+    //                 ПОСТРОЕНИЕ СЦЕНЫ
+    // -------------------------------------------------
+    private System.Collections.IEnumerator SpawnPlanCoroutine()
     {
         int spawnedThisFrame = 0;
+
         for (int y = 0; y < _height; y++)
+        {
             for (int x = 0; x < _width; x++)
             {
-                if (!_gridData[x, y].filled) continue;
-                var c = _gridData[x, y];
-                var prefab = _locationTiles[c.tile];
-                var go = Instantiate(prefab.gameObject, IndexToWorld(x, y), RotationFromQuarterTurns(c.rot), transform);
-                go.GetComponent<LocationTile>()?.SetupRuntime(_rng);
+                var cell = _plan[x, y];
+                if (!cell.hasValue) continue;
 
-                if (++spawnedThisFrame >= _instantiatesPerFrame)
+                // Инстанцируем
+                var go = Instantiate(cell.tile.gameObject, IndexToWorld(x, y), RotationFromQuarterTurns(cell.rot), transform);
+                _spawned[x, y] = go;
+
+                // Инициализация тайла (у вас была)
+                var lt = go.GetComponent<LocationTile>();
+                lt?.SetupRuntime(_rng);
+
+                // Плавный спавн партиями
+                if (++spawnedThisFrame >= _spawnPerFrame)
                 {
                     spawnedThisFrame = 0;
-                    yield return null; // размазываем работу по кадрам
+                    yield return null; // продолжим на следующий кадр
                 }
             }
-    }
-    #endregion
-
-    #region Helpers
-    private IEnumerable<int> EnumerateRotationsIndices(LocationTile tile)
-    {
-        if (!tile.AllowRotation) { yield return 0; yield break; }
-        // перетасовка 0..3
-        int[] r = { 0, 1, 2, 3 };
-        for (int i = 3; i > 0; i--)
-        {
-            int j = _rng.Next(i + 1);
-            (r[i], r[j]) = (r[j], r[i]);
         }
-        yield return r[0]; yield return r[1]; yield return r[2]; yield return r[3];
+
+        if (_log) Debug.Log("Готово!");
     }
 
-    private List<int> WeightedIndexShuffle(List<LocationTile> src, System.Random rng)
-    {
-        // без аллока множества копий — строим alias-like выбор и тасуем индексы по ключу
-        var idx = new List<int>(src.Count);
-        for (int i = 0; i < src.Count; i++) idx.Add(i);
-        // тасуем с весом через компаратор случайного ключа с учётом веса
-        idx.Sort((a, b) =>
-        {
-            double ka = Math.Pow(rng.NextDouble(), 1.0 / Math.Max(0.0001f, src[a].weight));
-            double kb = Math.Pow(rng.NextDouble(), 1.0 / Math.Max(0.0001f, src[b].weight));
-            return ka.CompareTo(kb);
-        });
-        return idx;
-    }
+    // -------------------------------------------------
+    //                 УТИЛИТЫ/МИКРООПТИМИЗАЦИИ
+    // -------------------------------------------------
+    private static bool Has(Openings m, Openings f) => (m & f) != 0;
 
-    private int CountBits(Openings m)
+    private static int CountBits(Openings m)
     {
         int c = 0;
-        if (m.HasFlag(Openings.North)) c++;
-        if (m.HasFlag(Openings.East)) c++;
-        if (m.HasFlag(Openings.South)) c++;
-        if (m.HasFlag(Openings.West)) c++;
+        if ((m & Openings.North) != 0) c++;
+        if ((m & Openings.East) != 0) c++;
+        if ((m & Openings.South) != 0) c++;
+        if ((m & Openings.West) != 0) c++;
         return c;
     }
 
-    private Quaternion RotationFromQuarterTurns(int q) =>
-        Quaternion.Euler(0f, 90f * ((q % 4 + 4) % 4), 0f);
+    private List<LocationTile> WeightedOrder(List<LocationTile> src)
+    {
+        // Без дублирования и лишних аллокаций:
+        // Считаем ключ: key = random^(1/weight), сортируем по убыванию
+        var tmp = new List<(LocationTile tile, double key)>(src.Count);
+        for (int i = 0; i < src.Count; i++)
+        {
+            var t = src[i];
+            double w = Math.Max(1e-4, t.weight); // защита от 0
+            double u = _rng.NextDouble();
+            double key = Math.Pow(u, 1.0 / w);
+            tmp.Add((t, key));
+        }
+        tmp.Sort((a, b) => b.key.CompareTo(a.key));
+        var res = new List<LocationTile>(src.Count);
+        for (int i = 0; i < tmp.Count; i++) res.Add(tmp[i].tile);
+        return res;
+    }
+
+    private Quaternion RotationFromQuarterTurns(int q) => Quaternion.Euler(0f, 90f * ((q % 4 + 4) % 4), 0f);
 
     private Vector3 IndexToWorld(int x, int y)
     {
@@ -293,9 +327,10 @@ public class ProceduralGeneration : ManagedBehaviour
         Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
         Gizmos.color = new Color(1, 1, 1, 0.2f);
         for (int y = 0; y < _height; y++)
+        {
             for (int x = 0; x < _width; x++)
                 Gizmos.DrawWireCube(IndexToWorld(x, y), new Vector3(_cellSize, 0.05f, _cellSize));
+        }
     }
 #endif
-    #endregion
 }
